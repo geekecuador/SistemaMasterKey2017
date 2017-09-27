@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block  content %}
+
+    {% if confirmacion %}
+    <div class="col-lg-4">
+        <div class="panel panel-color panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Confirmación de taller</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Información del taller</h3>
+                <p>Hora inicio:{{ taller.hora_inicio }}</p>
+                <p>Hora fin: {{ taller.hora_fin }}</p>
+                <p>Fecha: {{ taller.fecha }}</p>
+                <p>Lugar: {{ taller.lugar }}</p>
+                <p>
+                    Su reserva se ha concluido con exito.
+                </p>
+
+            </div>
+        </div>
+    </div>
+        {% else %}
+        <div class="col-lg-4">
+        <div class="panel panel-color panel-warning">
+            <div class="panel-heading">
+                <h3 class="panel-title">Error en la reserva</h3>
+            </div>
+            <div class="panel-body">
+                <p>
+                    Por favor vuelva a realizar el proceso, se ha encontrado problemas al reservar.
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block  content%}
+
+    <div class="col-sm-12">
+								<div class="card-box">
+
+
+									<div class="table-rep-plugin">
+										<div class="table-wrapper">
+                                            <h4 class="header-title m-t-0 m-b-30" style="margin-bottom: 5px !important;">Academic Rank</h4>
+
+                                            <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                                                <table id="tech-companies-1" class="table  table-striped">
+                                                    <thead>
+													<tr>
+														<th id="tech-companies-1-col-0-clone">Fecha</th>
+														<th data-priority="1" id="tech-companies-1-col-1-clone">Hora</th>
+														<th data-priority="3" id="tech-companies-1-col-2-clone">Actividad</th>
+														<th data-priority="1" id="tech-companies-1-col-3-clone">Nota</th>
+														<th data-priority="3" id="tech-companies-1-col-4-clone">Nivel</th>
+                                                        <th data-priority="3" id="tech-companies-1-col-4-clone">Profesor</th>
+                                                        <th data-priority="3" id="tech-companies-1-col-4-clone">Firma</th>
+
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<th colspan="1" data-columns="tech-companies-1-col-0">01-01-2016</th>
+														<td data-priority="1" colspan="1" data-columns="tech-companies-1-col-1">09:00</td>
+														<td data-priority="3" colspan="1" data-columns="tech-companies-1-col-2">Listenning</td>
+														<td data-priority="1" colspan="1" data-columns="tech-companies-1-col-3">Good</td>
+                                                        <td data-priority="1" colspan="1" data-columns="tech-companies-1-col-3">A1</td>
+														<td data-priority="3" colspan="1" data-columns="tech-companies-1-col-4">Pedro Santamaría</td>
+                                                        <td data-priority="3" colspan="1" data-columns="tech-companies-1-col-4">Sí</td>
+
+													</tr>
+
+												</tbody>
+											</table>
+										</div></div>
+
+									</div>
+
+								</div>
+							</div>
+
+{% endblock %}
+
+{% block footer %}
+    {% load static %}
+<script src="{% static "assets/plugins/RWD-Table-Patterns/dist/js/rwd-table.min.js" %}" type="text/javascript"></script>
+{% endblock %}

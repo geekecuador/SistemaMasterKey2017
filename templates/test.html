@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block  content%}
+
+    <div class="col-sm-12">
+								<div class="card-box">
+
+
+									<div class="table-rep-plugin">
+										<div class="table-wrapper">
+                                            <h4 class="header-title m-t-0 m-b-30" style="margin-bottom: 5px !important;">Academic Rank</h4>
+
+                                            <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                                                <table id="tech-companies-1" class="table  table-striped">
+                                                    <thead>
+													<tr>
+														<th id="tech-companies-1-col-0-clone">Tema</th>
+														<th data-priority="1" id="tech-companies-1-col-1-clone">Nota</th>
+														<th data-priority="3" id="tech-companies-1-col-2-clone">Profesor</th>
+													    <th data-priority="3" id="tech-companies-1-col-2-clone">Oficina</th>
+
+													</tr>
+												</thead>
+												<tbody>
+													{% for test in tests %}
+													<tr>
+														<th colspan="1" data-columns="tech-companies-1-col-0">{{ test.tema }}</th>
+														<td data-priority="1" colspan="1" data-columns="tech-companies-1-col-1">{{ test.nota }}</td>
+														<td data-priority="3" colspan="1" data-columns="tech-companies-1-col-2">{{ test.profesor }}</td>
+														<td data-priority="1" colspan="1" data-columns="tech-companies-1-col-3">{{ test.sede }}</td>
+
+
+													</tr>
+													{% endfor %}
+
+
+												</tbody>
+											</table>
+										</div></div>
+
+									</div>
+
+								</div>
+							</div>
+
+{% endblock %}
+
+{% block footer %}
+    {% load static %}
+<script src="{% static "assets/plugins/RWD-Table-Patterns/dist/js/rwd-table.min.js" %}" type="text/javascript"></script>
+{% endblock %}

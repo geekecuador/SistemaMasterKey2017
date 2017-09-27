@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block  content %}
+    {% load static %}
+
+    <div class="col-sm-12">
+        <div class="card-box">
+            <div class="dropdown pull-right">
+                <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
+                    <i class="zmdi zmdi-more-vert"></i>
+                </a>
+
+            </div>
+
+            <h4 class="header-title m-t-0 m-b-30">Seleccione la fecha</h4>
+
+            <div class="row">
+                <div class="col-lg-8">
+
+                    <div class="p-20" style="padding-top: 150px !important;">
+                        <form action="/paso2/" class="form-horizontal" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Fecha:</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        {#                                    placeholder="mm/dd/yyyy"#}
+                                        <input type="text" class="form-control" id="datepicker-autoclose"
+                                               placeholder="mm/dd/yyyy" name="fecha_leccion">
+                                        {#                                    <input type="date" class="form-control" name="fecha">#}
+
+                                        <span class="input-group-addon bg-primary b-0 text-white"><i
+                                                class="fa fa-calendar-o" aria-hidden="true"></i></span>
+                                    </div>
+                                    <!-- input-group -->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="text-right">
+                                    <button type="submit"
+                                            class="btn btn-primary btn-rounded w-md waves-effect waves-light m-b-5">
+                                        Consultar
+                                    </button>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+                <!-- end col -->
+
+
+            </div>
+            <!-- end row-->
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block footer %}
+    <script>
+        var dateToday = new Date();
+        dateToday.setDate(dateToday.getDate() + 1);
+        jQuery('#datepicker-autoclose').datepicker({
+            autoclose: true,
+            todayHighlight: true,
+            'startDate': dateToday,
+
+        });
+
+    </script>
+{% endblock %}
