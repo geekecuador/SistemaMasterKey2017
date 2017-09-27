@@ -27,7 +27,7 @@ SECRET_KEY = '5e$h63k=a&wtt0+e2$9&!6j^lln*lw+ili)%o4=fu7x#-9q@*3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['104.131.71.37',]
+ALLOWED_HOSTS = ['104.131.71.37','horarios.masterkey.com.ec']
 
 
 # Application definition
