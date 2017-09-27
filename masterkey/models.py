@@ -224,7 +224,7 @@ class Academic_Rank(models.Model):
         verbose_name_plural = 'records académicos'
 
     def __str__(self):
-        return self.nivel
+        return self.estudiante.cedula
 
 class Limitaciones(models.Model):
     estudiante = models.ForeignKey(Estudiante)
