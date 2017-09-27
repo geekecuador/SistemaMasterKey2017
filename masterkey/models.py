@@ -217,7 +217,7 @@ class Academic_Rank(models.Model):
                             default=G)
     comentarios = models.CharField(max_length=35, blank=True)
     firma_alumno = models.BooleanField()
-    profesor = models.ForeignKey(Profesor)
+    curso = models.ForeignKey(Curso)
 
     class Meta:
         verbose_name = 'record académico'

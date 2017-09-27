@@ -97,7 +97,7 @@ class SeguimientoAdmin(admin.ModelAdmin):
 
 @admin.register(models.Academic_Rank)
 class Academic_RankAdmin(admin.ModelAdmin):
-    list_display = ('estudiante', 'nivel', 'fecha', 'hora', 'nota', 'comentarios', 'firma_alumno', 'profesor',)
+    list_display = ('estudiante', 'nivel', 'fecha', 'hora', 'nota', 'comentarios', 'firma_alumno', 'curso',)
     raw_id_fields = ('nivel', 'estudiante')
     search_fields = ['nivel', 'estudiante', ]
 

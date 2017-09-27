@@ -86,22 +86,22 @@ WSGI_APPLICATION = 'Sistema.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'masterhkey',
-#         'USER': 'masterhkey',
-#         'PASSWORD': 'ropotermapolerstredb',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'demos',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'masterkeydb',
+        'USER': 'masterkey',
+        'PASSWORD': 'treelab2017',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': 'demos',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
