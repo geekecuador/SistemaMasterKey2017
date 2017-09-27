@@ -97,8 +97,8 @@
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Sistema/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-351">
-              <caret line="93" column="32" lean-forward="false" selection-start-line="93" selection-start-column="32" selection-end-line="93" selection-end-column="32" />
+            <state relative-caret-position="444">
+              <caret line="146" column="19" lean-forward="true" selection-start-line="146" selection-start-column="19" selection-end-line="146" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -275,39 +275,6 @@
               <item name="Sistema" type="b2602c69:ProjectViewProjectNode" />
               <item name="Sistema" type="462c0819:PsiDirectoryNode" />
               <item name="masterkey" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Sistema" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Sistema" type="462c0819:PsiDirectoryNode" />
-              <item name="Sistema" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Sistema" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Sistema" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Sistema" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Sistema" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Sistema" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Sistema" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="imagenes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Sistema" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Sistema" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Sistema" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Sistema" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="reportes" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Sistema" type="b2602c69:ProjectViewProjectNode" />
@@ -841,8 +808,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Sistema/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-351">
-          <caret line="93" column="32" lean-forward="false" selection-start-line="93" selection-start-column="32" selection-end-line="93" selection-end-column="32" />
+        <state relative-caret-position="444">
+          <caret line="146" column="19" lean-forward="true" selection-start-line="146" selection-start-column="19" selection-end-line="146" selection-end-column="19" />
           <folding />
         </state>
       </provider>
