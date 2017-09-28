@@ -32,6 +32,7 @@ class Academic_RankInline(admin.TabularInline):
     fk_name = "estudiante"
     extra = 1
     search_fields = ('nivel', 'leccion',)
+    raw_id_fields = ('id',)
 
 
 class SeguimientoInline(admin.TabularInline):
