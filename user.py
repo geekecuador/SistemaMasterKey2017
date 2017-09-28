@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 import csv
 from masterkey.models import Estudiante, Programa, Ciudad, Nivel
 
-f = open('b2SantoDomingo.csv', 'r')
+f = open('A1Esmeraldas.csv', 'r')
 with f:
 	reader = csv.DictReader(f)
 	for row in reader:
@@ -14,7 +14,7 @@ with f:
 			user.save()
 			try:
 				estudiante = Estudiante(cedula=row['cedula'],usuario=User.objects.get(username=row['usuario']),
-					programa=Programa.objects.get(id=1),ciudad=Ciudad.objects.get(nombre='Santo Domingo'),nivel=Nivel.objects.get(id=1),
+					programa=Programa.objects.get(id=1),ciudad=Ciudad.objects.get(nombre='Esmeraldas'),nivel=Nivel.objects.get(id=1),
 					fecha_nacimiento=row['nacimiento'], telefono = '0999999999',direccion_domicilio='ninguna', fecha_de_inicio=row['inicio'],fecha_de_expiracion=row['terminacion'])
 				estudiante.save()
 				print "Creacion con exito"
