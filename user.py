@@ -16,6 +16,7 @@ with f:
 				estudiante = Estudiante(cedula=row['cedula'],usuario=User.objects.get(username=row['usuario']),
 					programa=Programa.objects.get(id=1),ciudad=Ciudad.objects.get(nombre='Santo Domingo'),nivel=Nivel.objects.get(id=1),
 					fecha_nacimiento=row['nacimiento'], telefono = '0999999999',direccion_domicilio='ninguna', fecha_de_inicio=row['inicio'],fecha_de_expiracion=row['terminacion'])
+				estudiante.save()
 				print "Creacion con exito"
 			except Exception as e:
 				print "Error en el estudiante"
