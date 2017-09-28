@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 import csv
 from masterkey.models import Estudiante, Programa, Ciudad, Nivel
 
-f = open('a1SantoDomingo.csv', 'r')
+f = open('a2SantoDomingo.csv', 'r')
 with f:
 	reader = csv.DictReader(f)
 	for row in reader:
