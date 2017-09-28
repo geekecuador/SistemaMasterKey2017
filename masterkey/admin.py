@@ -40,7 +40,7 @@ class SeguimientoInline(admin.TabularInline):
 
 @admin.register(models.Estudiante)
 class EstudianteAdmin(admin.ModelAdmin):
-    list_display = ('usuario', 'cedula', 'Estudiante__usuario__username','Estudiante__usuario__lastname',  'nivel', 'Estudiante__usuario__email','ciudad','fecha_de_inicio',
+    list_display = ('usuario', 'cedula',  'nivel','ciudad','fecha_de_inicio',
                     'fecha_de_expiracion')
     list_filter = ('ciudad', 'nivel')
     list_editable = ('nivel',)
