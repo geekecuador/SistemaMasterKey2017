@@ -168,4 +168,3 @@ EMAIL_PORT = 26
 EMAIL_HOST_USER = 'sistema@masterkey.com.ec'
 EMAIL_HOST_PASSWORD = 'treelab2017'
 EMAIL_USE_TLS = False
-

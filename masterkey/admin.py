@@ -9,7 +9,7 @@ import models
 
 
 # Register your models here.
-
+admin.site.site_header = 'MasterKey'
 
 @admin.register(models.Sede)
 class SedeAdmin(admin.ModelAdmin):
