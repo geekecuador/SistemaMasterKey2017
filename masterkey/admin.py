@@ -38,7 +38,7 @@ class Academic_RankInline(admin.TabularInline):
 class SeguimientoInline(admin.TabularInline):
     model = models.Seguimiento
 #
-# @admin.register(models.Estudiante)
+@admin.register(models.Estudiante,User)
 class EstudianteAdmin(admin.ModelAdmin):
     list_display = ('usuario', 'cedula', 'fist_name', 'nivel','ciudad','fecha_de_inicio',
                     'fecha_de_expiracion')
@@ -48,8 +48,8 @@ class EstudianteAdmin(admin.ModelAdmin):
     raw_id_fields = ('usuario', 'nivel')
     inlines = [Academic_RankInline, SeguimientoInline]
     list_per_page = 50
-
-admin.site.register(User,EstudianteAdmin)
+#
+# admin.site.register(User,EstudianteAdmin)
 
 @admin.register(models.Contrato)
 class ContratoAdmin(admin.ModelAdmin):
