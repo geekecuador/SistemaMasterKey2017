@@ -22,7 +22,7 @@ class NivelAdmin(admin.ModelAdmin):
     list_editable = ('leccion', 'nivel', 'tema')
     list_filter = ('nivel',)
     ordering = ('leccion',)
-    search_fields = ('tema',)
+    search_fields = ('nivel',)
     actions = [export_as_csv_action("Exportar a Excel", fields=['id', 'nivel', 'tema', ])]
 
 

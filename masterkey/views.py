@@ -10,13 +10,14 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
-
+from django.contrib.auth.models import User
 from cursos import obtener_cursos, inactivo
 from models import Estudiante, Noticias, Taller, Test, Curso, Limitaciones, Ciudad, Estado,Sede
 
 
 def login_view(request):
     if request.user.is_authenticated():
+
         return redirect('/tablero')
     else:
         error = False
