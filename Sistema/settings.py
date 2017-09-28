@@ -167,5 +167,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 'treelab@coworkinglatacunga.com'
 EMAIL_HOST_PASSWORD = 'D@vidpull01234555'
-EMAIL_USE_TLS = True
+EMAIL_USE_TLS = False
 
