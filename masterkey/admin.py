@@ -47,7 +47,7 @@ class EstudianteAdmin(admin.ModelAdmin):
     search_fields = ('cedula',)
     raw_id_fields = ('usuario', 'nivel')
     inlines = [Academic_RankInline, SeguimientoInline]
-
+    list_per_page = 50
 
 @admin.register(models.Contrato)
 class ContratoAdmin(admin.ModelAdmin):
