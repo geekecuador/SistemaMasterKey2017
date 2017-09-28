@@ -8,14 +8,15 @@ with f:
 	for row in reader:
 		print row['usuario']
 		try:
-			user = User.objects.create_user(row[4], password=row[5], email=row[6])
+			user = User.objects.create_user(row['usuario'], password=row['clave'], email=row['email'])
 			user.is_superuser=False
 			user.is_staff=False
 			user.save()
 			try:
-				estudiante = Estudiante(cedula=row[0],usuario=User.objects.get(username=row[4]),
+				estudiante = Estudiante(cedula=row['cedula'],usuario=User.objects.get(username=row['usuario']),
 					programa=Programa.objects.get(id=1),ciudad=Ciudad.objects.get(nombre='Santo Domingo'),nivel=Nivel.objects.get(id=1),
-					fecha_nacimiento=row[5], telefono = '0999999999',direccion_domicilio='ninguna', fecha_de_inicio=row[1],fecha_de_expiracion=row[2])
+					fecha_nacimiento=row['nacimiento'], telefono = '0999999999',direccion_domicilio='ninguna', fecha_de_inicio=row['inicio'],fecha_de_expiracion=row['terminacion'])
+				print "Creacion con exito"
 			except Exception as e:
 				print "Error en el estudiante"
 		except Exception as e:
