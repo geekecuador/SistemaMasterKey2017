@@ -40,7 +40,7 @@ class SeguimientoInline(admin.TabularInline):
 #
 @admin.register(models.Estudiante)
 class EstudianteAdmin(admin.ModelAdmin):
-    list_display = ('usuario', 'cedula', 'get_first_name','get_last_name','nivel','ciudad','get_last_email','fecha_de_inicio',
+    list_display = ('usuario', 'cedula', 'get_first_name','get_last_name','nivel','ciudad','get_email','fecha_de_inicio',
                     'fecha_de_expiracion')
     list_filter = ('ciudad', 'nivel')
     list_editable = ('nivel',)
@@ -60,10 +60,10 @@ class EstudianteAdmin(admin.ModelAdmin):
     get_last_name.short_description = 'Apellidos'
 
 
-    def get_last_email(self, obj):
+    def get_email(self, obj):
         return obj.usuario.email
-    get_last_name.admin_order_field = 'email'
-    get_last_name.short_description = 'Email'
+    get_email.admin_order_field = 'email'
+    get_email.short_description = 'Email'
 #
 # admin.site.register(User,EstudianteAdmin)
 
