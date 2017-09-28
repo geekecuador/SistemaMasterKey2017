@@ -51,18 +51,18 @@ class EstudianteAdmin(admin.ModelAdmin):
 
     def get_first_name(self, obj):
         return obj.usuario.first_name
-    get_first_name.admin_order_field = 'first_name'
+    get_first_name.admin_order_field = 'usuario__first_name'
     get_first_name.short_description = 'Nombres'
 
     def get_last_name(self,obj):
         return obj.usuario.last_name
-    get_last_name.admin_order_field = 'last_name'
+    get_last_name.admin_order_field = 'usuario__last_name'
     get_last_name.short_description = 'Apellidos'
 
 
     def get_email(self, obj):
         return obj.usuario.email
-    get_email.admin_order_field = 'email'
+    get_email.admin_order_field = 'usuario__email'
     get_email.short_description = 'Email'
 #
 # admin.site.register(User,EstudianteAdmin)
