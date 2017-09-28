@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from daterange_filter.filter import DateRangeFilter
 from django.contrib import admin
-
+from django.contrib.auth.models import User
 from actions import export_as_csv_action
 import models
 
@@ -37,10 +37,10 @@ class Academic_RankInline(admin.TabularInline):
 
 class SeguimientoInline(admin.TabularInline):
     model = models.Seguimiento
-
-@admin.register(models.Estudiante)
+#
+# @admin.register(models.Estudiante)
 class EstudianteAdmin(admin.ModelAdmin):
-    list_display = ('usuario', 'cedula',  'nivel','ciudad','fecha_de_inicio',
+    list_display = ('usuario', 'cedula', 'fist_name', 'nivel','ciudad','fecha_de_inicio',
                     'fecha_de_expiracion')
     list_filter = ('ciudad', 'nivel')
     list_editable = ('nivel',)
@@ -48,6 +48,8 @@ class EstudianteAdmin(admin.ModelAdmin):
     raw_id_fields = ('usuario', 'nivel')
     inlines = [Academic_RankInline, SeguimientoInline]
     list_per_page = 50
+
+admin.site.register(EstudianteAdmin,User)
 
 @admin.register(models.Contrato)
 class ContratoAdmin(admin.ModelAdmin):
