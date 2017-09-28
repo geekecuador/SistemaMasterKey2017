@@ -285,19 +285,19 @@ class Seguimiento(models.Model):
     def __str__(self):
         return "%s -  %s-  %s" % (self.estudiante, self.comentario, self.estado)
 
-
-def send_user_email(sender, instance, **kwargs):
-    if kwargs['created']:
-        estudiante = Estudiante.objects.get(pk=instance.pk)
-        ctx = {
-            'usuario': estudiante.usuario.get_username(),
-            'password': 'masterkey',
-            'nombres': estudiante.usuario.get_full_name(),
-
-        }
-        html_part = render_to_string('email/bienvenida.html', ctx)
-        send_mail('Bienvenida', ' ', 'noreply@masterkey.com.ec', [estudiante.usuario.email], fail_silently=False,
-                  html_message=html_part)
-
-
-post_save.connect(send_user_email, sender=Estudiante)
+# Descomentar en prodoccion
+# def send_user_email(sender, instance, **kwargs):
+#     if kwargs['created']:
+#         estudiante = Estudiante.objects.get(pk=instance.pk)
+#         ctx = {
+#             'usuario': estudiante.usuario.get_username(),
+#             'password': 'masterkey',
+#             'nombres': estudiante.usuario.get_full_name(),
+#
+#         }
+#         html_part = render_to_string('email/bienvenida.html', ctx)
+#         send_mail('Bienvenida', ' ', 'noreply@masterkey.com.ec', [estudiante.usuario.email], fail_silently=False,
+#                   html_message=html_part)
+#
+#
+# post_save.connect(send_user_email, sender=Estudiante)

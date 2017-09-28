@@ -20,5 +20,6 @@ with f:
 				print "Creacion con exito"
 			except Exception as e:
 				print "Error en el estudiante"
+				print e
 		except Exception as e:
 			print "Error en el usuario"
