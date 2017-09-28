@@ -6,7 +6,7 @@ f = open('a1SantoDomingo.csv', 'r')
 with f:
 	reader = csv.DictReader(f)
 	for row in reader:
-		print row[0]
+		print row['usuario']
 		try:
 			user = User.objects.create_user(row[4], password=row[5], email=row[6])
 			user.is_superuser=False
