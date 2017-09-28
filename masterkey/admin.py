@@ -40,7 +40,7 @@ class SeguimientoInline(admin.TabularInline):
 #
 @admin.register(models.Estudiante)
 class EstudianteAdmin(admin.ModelAdmin):
-    list_display = ('usuario', 'cedula', 'nivel','ciudad','fecha_de_inicio',
+    list_display = ('usuario', 'cedula', 'get_first_name','nivel','ciudad','fecha_de_inicio',
                     'fecha_de_expiracion')
     list_filter = ('ciudad', 'nivel')
     list_editable = ('nivel',)
@@ -48,6 +48,11 @@ class EstudianteAdmin(admin.ModelAdmin):
     raw_id_fields = ('usuario', 'nivel')
     inlines = [Academic_RankInline, SeguimientoInline]
     list_per_page = 50
+
+    def get_first_name(self, obj):
+        return obj.usuario.first_name
+    get_first_name.admin_order_field = 'first_name'
+    get_first_name.short_description = 'Nombre'
 #
 # admin.site.register(User,EstudianteAdmin)
 
