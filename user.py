@@ -8,7 +8,7 @@ with f:
 	for row in reader:
 		print row['usuario']
 		try:
-			user = User.objects.create_user(row['usuario'], password=row['password'])
+			user = User.objects.create_user(row['usuario'], password=row['password'],email=row['email'])
 		    user.is_superuser=False
 		    user.is_staff=False
 		    user.save()
