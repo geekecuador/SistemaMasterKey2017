@@ -10,9 +10,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
-from django.contrib.auth.models import User
+
 from cursos import obtener_cursos, inactivo
-from models import Estudiante, Noticias, Taller, Test, Curso, Limitaciones, Ciudad, Estado,Sede
+from models import Estudiante, Noticias, Taller, Test, Curso, Limitaciones, Ciudad, Estado, Sede
 
 
 def login_view(request):
@@ -120,7 +120,8 @@ def paso3(request):
 
         inactivo(estudiante)
         return render(request, 'consulta3.html',
-                      {'username': username, 'estudiante': estudiante, 'confirmacion': estadocurso,'infoCurso':_curso})
+                      {'username': username, 'estudiante': estudiante, 'confirmacion': estadocurso,
+                       'infoCurso': _curso})
     else:
         redirect('/')
 
@@ -245,7 +246,7 @@ class ExportarHorarios(View):
 
     def get(self, request, *args, **kwargs):
         ciudad = Sede.objects.all()
-        return render(request, self.template_name, {'ciudad': ciudad,})
+        return render(request, self.template_name, {'ciudad': ciudad, })
 
     def post(self, request, *args, **kwargs):
         fecha = request.POST['fecha']
@@ -253,8 +254,8 @@ class ExportarHorarios(View):
         print(sede)
         # sede  = Sede.objects.get(pk=sede)
         # print(sede)
-        fecha = datetime.datetime.strptime(fecha,'%m/%d/%Y').date()
-        return exportar_cursos_xls(fecha,sede)
+        fecha = datetime.datetime.strptime(fecha, '%m/%d/%Y').date()
+        return exportar_cursos_xls(fecha, sede)
 
 
 def exportar_estudiantes__activos_xls(request):
@@ -293,6 +294,8 @@ def exportar_estudiantes__activos_xls(request):
 
     wb.save(response)
     return response
+
+
 def exportar_estudiantes_xls(estado, ciudad):
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename="users.xls"'
@@ -331,8 +334,8 @@ def exportar_estudiantes_xls(estado, ciudad):
     wb.save(response)
     return response
 
-def exportar_cursos_xls(fecha, sede):
 
+def exportar_cursos_xls(fecha, sede):
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename="users.xls"'
     wb = xlwt.Workbook(encoding='utf-8')
@@ -364,7 +367,7 @@ def exportar_cursos_xls(fecha, sede):
         row_num += 1
 
         c = Curso.objects.all().filter(pk=cursoId.index(numerodecursos))
-        ws.write(row_num, numerodecursos,c.get().profesor.nombre,font_style)
+        ws.write(row_num, numerodecursos, c.get().profesor.nombre, font_style)
 
     wb.save(response)
     return response

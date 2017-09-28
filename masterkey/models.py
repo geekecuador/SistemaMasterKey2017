@@ -20,14 +20,17 @@ class Ciudad(models.Model):
     def __str__(self):
         return self.nombre
 
+
 class Estado(models.Model):
     estado = models.CharField(max_length=35)
 
     class Meta:
         verbose_name = 'estado'
         verbose_name_plural = 'estados'
+
     def __str__(self):
-        return "%s" %str(self.estado)
+        return "%s" % str(self.estado)
+
 
 class Programa(models.Model):
     nombre_del_programa = models.CharField(max_length=25)
@@ -37,7 +40,6 @@ class Programa(models.Model):
 
 
 class Sede(models.Model):
-
     nombre_sede = models.CharField(max_length=20)
     ciudad = models.ForeignKey(Ciudad)
     direccion = models.CharField(max_length=20)
@@ -226,6 +228,7 @@ class Academic_Rank(models.Model):
     def __str__(self):
         return self.estudiante.cedula
 
+
 class Limitaciones(models.Model):
     estudiante = models.ForeignKey(Estudiante)
     fecha_reserva = models.DateField()
@@ -262,7 +265,6 @@ class Noticias(models.Model):
         return "%s %s" % (self.titulo, str(self.fecha))
 
 
-
 class Seguimiento(models.Model):
     AC = 'Activo'
     IN = 'Inactivo'
@@ -274,7 +276,7 @@ class Seguimiento(models.Model):
     RC = 'Recesión de contrato'
     TM = 'Terminado'
 
-    estudiante = models.OneToOneField('Estudiante', related_name='Estudiante',unique=True)
+    estudiante = models.OneToOneField('Estudiante', related_name='Estudiante', unique=True)
     estado = models.ForeignKey(Estado)
     comentario = models.TextField()
 
@@ -284,6 +286,7 @@ class Seguimiento(models.Model):
 
     def __str__(self):
         return "%s -  %s-  %s" % (self.estudiante, self.comentario, self.estado)
+
 
 # Descomentar en prodoccion
 def send_user_email(sender, instance, **kwargs):
@@ -295,9 +298,14 @@ def send_user_email(sender, instance, **kwargs):
             'nombres': estudiante.usuario.get_full_name(),
 
         }
-        html_part = render_to_string('email/bienvenida.html', ctx)
-        send_mail('Bienvenida', ' ', 'sistema@masterkey.com.ec', [estudiante.usuario.email], fail_silently=False,
-                  html_message=html_part)
+        if(estudiante.ciudad.nombre =='Esmeraldas'):
+            html_part = render_to_string('email/bienvenidaEsmeraldas.html', ctx)
+            send_mail('BIENVENIDAD', ' ', 'sistema@masterkey.com.ec', [estudiante.usuario.email], fail_silently=False,
+                      html_message=html_part)
+        elif(estudiante.ciudad.nombre =='Santo Domingo'):
+            html_part = render_to_string('email/bienvenidaSantoDomingo.html', ctx)
+            send_mail('BIENVENIDAD', ' ', 'sistema@masterkey.com.ec', [estudiante.usuario.email], fail_silently=False,
+                      html_message=html_part)
 
 
 post_save.connect(send_user_email, sender=Estudiante)
