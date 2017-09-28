@@ -25,19 +25,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '5e$h63k=a&wtt0+e2$9&!6j^lln*lw+ili)%o4=fu7x#-9q@*3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['104.131.71.37','horarios.masterkey.com.ec']
+ALLOWED_HOSTS = ['104.131.71.37', 'horarios.masterkey.com.ec']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'material',
-    'material.frontend',
-    'material.admin',
+    # 'material',
+    # 'material.frontend',
+    # 'material.admin',
     'django.contrib.admin',
-
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -47,7 +46,6 @@ INSTALLED_APPS = [
     'storages',
     'widget_tweaks',
     'daterange_filter',
-
 
     'sslserver',
 ]
@@ -99,7 +97,7 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': 'demos',
+#         'NAME': 'prueba',
 #     }
 # }
 
@@ -165,9 +163,9 @@ DEFAULT_FILE_STORAGE = 'Sistema.storage_backends.MediaStorage'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-EMAIL_HOST = 'smtp.mailgun.org'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'postmaster@sandbox254c3aae828349ec9981be362b444f39.mailgun.org'
-EMAIL_HOST_PASSWORD = '381a28cddd6fbf5afdd47c20d9a843ae'
-EMAIL_USE_TLS = True
+EMAIL_HOST = 'mail.masterkey.com.ec'
+EMAIL_PORT = 26
+EMAIL_HOST_USER = 'sistema@masterkey.com.ec'
+EMAIL_HOST_PASSWORD = 'treelab2017'
+EMAIL_USE_TLS = False
 
