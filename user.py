@@ -9,9 +9,9 @@ with f:
 		print row['usuario']
 		try:
 			user = User.objects.create_user(row['usuario'], password=row['password'],email=row['email'])
-		    user.is_superuser=False
-		    user.is_staff=False
-		    user.save()
+			user.is_superuser=False
+			user.is_staff=False
+			user.save()
 		    try:
 		    	estudiante = Estudiante(cedula='0500995972',usuario=User.objects.get(username=row['usuario']),
 		    		programa=Programa.objects.get(id=1),ciudad=Ciudad.objects.get(nombre='Santo Domingo'),nivel=Nivel.objects.get(id=1),
