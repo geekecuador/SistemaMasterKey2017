@@ -38,9 +38,9 @@ class Academic_RankInline(admin.TabularInline):
 class SeguimientoInline(admin.TabularInline):
     model = models.Seguimiento
 #
-@admin.register(models.Estudiante,User)
+@admin.register(models.Estudiante)
 class EstudianteAdmin(admin.ModelAdmin):
-    list_display = ('usuario', 'cedula', 'fist_name', 'nivel','ciudad','fecha_de_inicio',
+    list_display = ('usuario', 'cedula', 'nivel','ciudad','fecha_de_inicio',
                     'fecha_de_expiracion')
     list_filter = ('ciudad', 'nivel')
     list_editable = ('nivel',)
