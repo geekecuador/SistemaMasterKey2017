@@ -44,7 +44,7 @@ class EstudianteAdmin(admin.ModelAdmin):
                     'fecha_de_expiracion')
     list_filter = ('ciudad', 'nivel')
     list_editable = ('nivel',)
-    search_fields = ('cedula','Estudiante__usuario__fist_name','Estudiante__usuario__last_name','Estudiante__usuario__email')
+    search_fields = ('cedula','usuario__fist_name', 'usuario__last_name', 'usuario__email')
     raw_id_fields = ('usuario', 'nivel')
     inlines = [Academic_RankInline, SeguimientoInline]
     list_per_page = 50
