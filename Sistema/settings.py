@@ -163,9 +163,9 @@ DEFAULT_FILE_STORAGE = 'Sistema.storage_backends.MediaStorage'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-EMAIL_HOST = 'mail.masterkey.com.ec'
-EMAIL_PORT = 26
-EMAIL_HOST_USER = 'sistema@masterkey.com.ec'
-EMAIL_HOST_PASSWORD = 'treelab2017'
-EMAIL_USE_TLS = False
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'treelab@coworkinglatacunga.com'
+EMAIL_HOST_PASSWORD = 'D@vidpull01234555'
+EMAIL_USE_TLS = True
 
