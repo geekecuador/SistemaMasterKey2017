@@ -49,7 +49,7 @@ class EstudianteAdmin(admin.ModelAdmin):
     inlines = [Academic_RankInline, SeguimientoInline]
     list_per_page = 50
 
-admin.site.register(EstudianteAdmin,User)
+admin.site.register(User,EstudianteAdmin)
 
 @admin.register(models.Contrato)
 class ContratoAdmin(admin.ModelAdmin):
