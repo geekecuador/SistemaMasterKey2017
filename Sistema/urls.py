@@ -63,6 +63,6 @@ urlpatterns = [
     url(r'^exportar/estudiantes/$', views.ExportarEstudiantes.as_view(), name='exportarEstudiantes'),
     url(r'^exportar/horarios/$', views.ExportarHorarios.as_view(), name='exportarHorarios'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^users/', include(router.urls))
-
+    url(r'^users/', include(router.urls)),
+    url(r'^login-android/' , views.login_android, name='login-android')
 ]

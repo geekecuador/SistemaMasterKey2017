@@ -36,6 +36,27 @@ def login_view(request):
                 error = True
                 return render(request, 'page-login.html', {'error': error})
 
+def login_android(request):
+    if request.user.is_authenticated():
+
+        return redirect('/tablero')
+    else:
+        error = False
+        if request.method == 'GET':
+            return render(request, 'page-login.html', {'error': error})
+        elif request.method == 'POST':
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                # Exitoso
+                login(request, user)
+                return redirect('/tablero')
+            else:
+                # Fallido
+                error = True
+                return render(request, 'page-login.html', {'error': error})
+
 
 def logout_view(request):
     logout(request)
