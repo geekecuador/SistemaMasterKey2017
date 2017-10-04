@@ -304,7 +304,7 @@ def send_user_email(sender, instance, **kwargs):
                       html_message=html_part)
         elif(estudiante.ciudad.nombre =='Santo Domingo'):
             html_part = render_to_string('email/bienvenidaSantoDomingo.html', ctx)
-            send_mail('BIENVENIDA'+estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec', [estudiante.usuario.email], fail_silently=False,
+            send_mail('BIENVENIDA '+estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec', [estudiante.usuario.email], fail_silently=False,
                       html_message=html_part)
 
 
