@@ -288,7 +288,7 @@ class Seguimiento(models.Model):
         return "%s -  %s-  %s" % (self.estudiante, self.comentario, self.estado)
 
 
-# Descomentar en prodoccion
+# Descomentar en produccion
 def send_user_email(sender, instance, **kwargs):
     if kwargs['created']:
         estudiante = Estudiante.objects.get(pk=instance.pk)
