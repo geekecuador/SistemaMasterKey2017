@@ -189,7 +189,7 @@ class Curso(models.Model):
         verbose_name_plural = 'cursos'
 
     def __str__(self):
-        return "Fecha: " + str(self.fecha) + " Hora Inicio: " + str(self.hora_inicio) + \
+        return "Sede:"+self.sede.nombre_sede+ "Fecha: " + str(self.fecha) + " Hora Inicio: " + str(self.hora_inicio) + \
                " Capacidad: " + str(self.capacidad_maxima)
 
 
