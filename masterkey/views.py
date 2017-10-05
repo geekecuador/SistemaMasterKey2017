@@ -344,7 +344,7 @@ def exportar_estudiantes_xls(estado, ciudad):
                                                          'contrato__fecha_creacion', 'contrato__duracion',
                                                          'fecha_nacimiento', 'telefono',
                                                          'Estudiante__estado__seguimiento__comentario').filter(
-        Estudiante__estado_id=estado).filter(ciudad_id=ciudad).distinct()
+        Estudiante__estado_id=estado).filter(ciudad_id=ciudad).distinct('usuario__email')
 
     # .values_list('user', 'first_name', 'last_name', 'email')
     # rows = User.objects.values()
