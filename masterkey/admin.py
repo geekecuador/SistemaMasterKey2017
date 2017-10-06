@@ -32,11 +32,12 @@ class Academic_RankInline(admin.TabularInline):
     fk_name = "estudiante"
     extra = 1
     search_fields = ('nivel', 'leccion',)
-    raw_id_fields = ('nivel',)
+    raw_id_fields = ('nivel','curso')
 
 
 class SeguimientoInline(admin.TabularInline):
     model = models.Seguimiento
+
 #
 @admin.register(models.Estudiante)
 class EstudianteAdmin(admin.ModelAdmin):
