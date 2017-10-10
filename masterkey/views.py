@@ -147,7 +147,7 @@ def paso3(request):
             estudiante.save()
             limitacion = Limitaciones(estudiante=estudiante, fecha_reserva=datetime.datetime.today())
             limitacion.save()
-            academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=estudiante.nivel_id),
+            academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
                                       fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
 
             academico.save()
