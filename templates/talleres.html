@@ -60,7 +60,11 @@
         </table>
              <div class="form-group">
                             <div class="text-right">
-                                 <button type="submit" class="btn btn-primary btn-rounded w-md waves-effect waves-light m-b-5">Reservar</button>
+                                {% if talleres|length >= 1 %}
+                            <button type="submit"
+                                    class="btn btn-primary btn-rounded w-md waves-effect waves-light m-b-5">Reservar
+                            </button>
+                        {% endif %}
                             </div>
                         </div>
             </form>
