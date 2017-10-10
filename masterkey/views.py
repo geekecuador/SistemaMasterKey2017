@@ -21,6 +21,7 @@ def login_view(request):
 
         try:
             estudiante = Estudiante.objects.get(usuario=username)
+            inactivo(estudiante)
             return redirect('/tablero')
         except:
             return redirect('/admin')
@@ -36,14 +37,17 @@ def login_view(request):
             if user is not None:
                 # Exitoso
                 login(request, user)
-                username = request.user
-                estudiante = Estudiante.objects.get(usuario=username)
-                fechaActual = datetime.datetime.now().date()
-                fechaExpiracion = estudiante.fecha_de_expiracion
-                if str(fechaExpiracion) > str(fechaActual):
-                    return redirect('/tablero')
+                if user.is_active:
+                    username = request.user
+                    estudiante = Estudiante.objects.get(usuario=username)
+                    fechaActual = datetime.datetime.now().date()
+                    fechaExpiracion = estudiante.fecha_de_expiracion
+                    if str(fechaExpiracion) > str(fechaActual):
+                        return redirect('/tablero')
+                    else:
+                        logout(request)
+                        return render(request, 'alertas/vencimiento.html', {})
                 else:
-                    logout(request)
                     return render(request, 'alertas/vencimiento.html', {})
 
             else:
@@ -84,6 +88,7 @@ def tablero(request):
     if request.user.is_authenticated():
         username = request.user
         estudiante = Estudiante.objects.get(usuario=username)
+        inactivo(estudiante)
         noticias = Noticias.objects.filter(
                 fecha__range=[datetime.datetime.now(), datetime.datetime.now() + datetime.timedelta(days=15)])
         return render(request, 'index.html', {'username': username, 'estudiante': estudiante, 'noticias': noticias})
@@ -184,7 +189,7 @@ def paso3(request):
                                           fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
                 academico.save()
 
-        inactivo(estudiante)
+
         return render(request, 'consulta3.html',
                       {'username': username, 'estudiante': estudiante, 'confirmacion': estadocurso,
                        'infoCurso': _curso})
