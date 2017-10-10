@@ -33,11 +33,13 @@ def login_view(request):
         elif request.method == 'POST':
             username = request.POST['username']
             password = request.POST['password']
+            request.user.is_active
+
             user = authenticate(request, username=username, password=password)
-            if user:
+            if user is not None:
                 # Exitoso
 
-                if user.is_active:
+                if user.status =='enabled':
                     login(request, user)
                     username = request.user
                     estudiante = Estudiante.objects.get(usuario=username)
