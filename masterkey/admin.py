@@ -37,7 +37,8 @@ class Academic_RankInline(admin.TabularInline):
 
 class SeguimientoInline(admin.TabularInline):
     model = models.Seguimiento
-
+class TestInLine(admin.TabularInline):
+    model = models.Test
 #
 @admin.register(models.Estudiante)
 class EstudianteAdmin(admin.ModelAdmin):
@@ -47,7 +48,7 @@ class EstudianteAdmin(admin.ModelAdmin):
     list_editable = ('nivel',)
     search_fields = ('cedula','usuario__first_name', 'usuario__last_name', 'usuario__email')
     raw_id_fields = ('usuario', 'nivel')
-    inlines = [Academic_RankInline, SeguimientoInline]
+    inlines = [Academic_RankInline, SeguimientoInline,TestInLine]
     list_per_page = 50
 
     def get_first_name(self, obj):
@@ -126,7 +127,7 @@ class Academic_RankAdmin(admin.ModelAdmin):
 class TestAdmin(admin.ModelAdmin):
     raw_id_fields = ('estudiante',)
     search_fields = ['estudiante__apellido', 'estudiante__nombre', ]
-    list_filter = ('estudiante',)
+    # list_filter = ('estudiante',)
 
 
 
