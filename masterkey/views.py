@@ -139,7 +139,14 @@ def paso3(request):
         if _curso.tipo_nivel == 'xx' or _curso.tipo_leccion == 0:
             _curso.tipo_nivel = estudiante.nivel.nivel
             _curso.tipo_leccion = estudiante.nivel.leccion
+            _curso.estudiantes.add(estudiante)
+            _curso.tipo_estudiante.add(estudiante.nivel)
+            _curso.capacidad_maxima = _curso.capacidad_maxima - 1
+            estudiante.nivel.leccion = estudiante.nivel.leccion + 1
+            limitacion = Limitaciones(estudiante=estudiante, fecha_reserva=datetime.datetime.today())
+            limitacion.save()
             _curso.save()
+            estudiante.save()
 
             estadocurso = True
         elif _curso.tipo_estudiante.count() < _curso.max_tipo:
