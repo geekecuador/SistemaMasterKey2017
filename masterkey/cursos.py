@@ -15,7 +15,7 @@ def obtener_cursos(estudiante, fecha):
                 filter(
                 tipo_leccion__in=range(estudiante.nivel.leccion - 5, estudiante.nivel.leccion + 5)). \
                 filter(tipo_nivel=estudiante.nivel.nivel).filter(sede__ciudad=estudiante.ciudad).exclude(
-                tipo_nivel='xx')
+                tipo_nivel='xx').exclude(estudiantes=estudiante)
             cursos2 = Curso.objects.filter(fecha=fecha).filter(capacidad_maxima__gt=0). \
                 filter(tipo_nivel='xx').filter(sede__ciudad=estudiante.ciudad)
             cursos = list(chain(cursos1, cursos2))
