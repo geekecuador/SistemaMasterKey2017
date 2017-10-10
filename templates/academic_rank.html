@@ -26,16 +26,22 @@
 													</tr>
 												</thead>
 												<tbody>
-													<tr>
-														<th colspan="1" data-columns="tech-companies-1-col-0">01-01-2016</th>
-														<td data-priority="1" colspan="1" data-columns="tech-companies-1-col-1">09:00</td>
-														<td data-priority="3" colspan="1" data-columns="tech-companies-1-col-2">Listenning</td>
-														<td data-priority="1" colspan="1" data-columns="tech-companies-1-col-3">Good</td>
-                                                        <td data-priority="1" colspan="1" data-columns="tech-companies-1-col-3">A1</td>
-														<td data-priority="3" colspan="1" data-columns="tech-companies-1-col-4">Pedro Santamaría</td>
-                                                        <td data-priority="3" colspan="1" data-columns="tech-companies-1-col-4">Sí</td>
+                                                    {% for academico in academic_rank %}
+                                                    <tr>
+														<th colspan="1" data-columns="tech-companies-1-col-0">{{ academico.fecha }}</th>
+														<td data-priority="1" colspan="1" data-columns="tech-companies-1-col-1">{{ academico.hora }}</td>
+														<td data-priority="3" colspan="1" data-columns="tech-companies-1-col-2">{{ academico.nivel.tema }}</td>
+														<td data-priority="1" colspan="1" data-columns="tech-companies-1-col-3">{{ academico.nota }}</td>
+                                                        <td data-priority="1" colspan="1" data-columns="tech-companies-1-col-3">{{ academico.nivel }}</td>
+														<td data-priority="3" colspan="1" data-columns="tech-companies-1-col-4">{{ academico.curso.profesor }}</td>
+                                                        <td data-priority="3" colspan="1" data-columns="tech-companies-1-col-4">{{ academico.firma_alumno }}</td>
 
 													</tr>
+                                                    {% endfor %}
+
+
+
+													
 
 												</tbody>
 											</table>

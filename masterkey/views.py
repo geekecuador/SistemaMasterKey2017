@@ -201,7 +201,8 @@ def academic_rank(request):
     if request.user.is_authenticated():
         username = request.user
         estudiante = Estudiante.objects.get(usuario=username)
-        return render(request, 'academic_rank.html', {'username': username, 'estudiante': estudiante})
+        academic_rank = Academic_Rank.objects.filter(estudiante=estudiante)
+        return render(request, 'academic_rank.html', {'username': username, 'estudiante': estudiante,'academic_rank':academic_rank})
     else:
         redirect('/')
 
