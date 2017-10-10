@@ -36,8 +36,9 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 # Exitoso
-                login(request, user)
+
                 if user.is_active:
+                    login(request, user)
                     username = request.user
                     estudiante = Estudiante.objects.get(usuario=username)
                     fechaActual = datetime.datetime.now().date()
@@ -48,7 +49,7 @@ def login_view(request):
                         logout(request)
                         return render(request, 'alertas/vencimiento.html', {})
                 else:
-                    return render(request, 'alertas/vencimiento.html', {})
+                    return render(request, 'alertas/prueba.html', {})
 
             else:
                 # Fallido
