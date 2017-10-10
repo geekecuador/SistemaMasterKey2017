@@ -101,7 +101,7 @@ def paso1(request):
     if request.user.is_authenticated():
         username = request.user
         estudiante = Estudiante.objects.get(usuario=username)
-        academico = Academic_Rank.objects.filter(nivel_id=999)
+        academico = Academic_Rank.objects.filter(nivel_id=999).filter(estudiante=estudiante)
 
         dt = datetime.datetime.now()
         start = dt -datetime.timedelta(days=dt.weekday())
