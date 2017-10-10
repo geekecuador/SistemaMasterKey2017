@@ -42,7 +42,7 @@
                     <tbody>
                     {% for curso in cursos %}
                         <tr>
-                            <th scope="row">1</th>
+                            <th scope="row">{{ curso.pk }}</th>
                             <td>
                                 <div class="checkbox checkbox-primary">
                                     <input id="checkbox2" type="checkbox" name="id" value="{{ curso.pk }}">
