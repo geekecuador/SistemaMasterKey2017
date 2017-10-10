@@ -30,7 +30,16 @@ def login_view(request):
             if user is not None:
                 # Exitoso
                 login(request, user)
-                return redirect('/tablero')
+                username = request.user
+                estudiante = Estudiante.objects.get(usuario=username)
+                fechaActual = datetime.datetime.now().date()
+                fechaExpiracion = estudiante.fecha_de_expiracion
+                if str(fechaExpiracion) > str(fechaActual):
+                    return redirect('/tablero')
+                else:
+                    logout(request)
+                    return render(request, 'alertas/vencimiento.html', {})
+
             else:
                 # Fallido
                 error = True
@@ -70,7 +79,7 @@ def tablero(request):
         username = request.user
         estudiante = Estudiante.objects.get(usuario=username)
         noticias = Noticias.objects.filter(
-            fecha__range=[datetime.datetime.now(), datetime.datetime.now() + datetime.timedelta(days=15)])
+                fecha__range=[datetime.datetime.now(), datetime.datetime.now() + datetime.timedelta(days=15)])
         return render(request, 'index.html', {'username': username, 'estudiante': estudiante, 'noticias': noticias})
     else:
         redirect('/')
@@ -390,6 +399,5 @@ def exportar_cursos_xls(fecha, sede):
 
         c = Curso.objects.all().filter(pk=cursoId.index(numerodecursos))
         ws.write(row_num, numerodecursos, c.get().profesor.nombre, font_style)
-
     wb.save(response)
     return response
