@@ -109,7 +109,7 @@ def paso1(request):
 
         if len(academico) >= 1:
             return render(request, 'consulta1pasivo.html', {'username': username, 'estudiante': estudiante})
-        elif len(limitacion) > 3:
+        elif len(limitacion) > =3:
             return render(request, 'consulta1limitacion.html', {'username': username, 'estudiante': estudiante})
         else:
             return render(request, 'consulta1.html', {'username': username, 'estudiante': estudiante})
