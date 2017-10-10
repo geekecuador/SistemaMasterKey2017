@@ -234,7 +234,7 @@ class Limitaciones(models.Model):
     fecha_reserva = models.DateField()
 
     class Meta:
-        verbose_name = 'limitacione'
+        verbose_name = 'limitación'
         verbose_name_plural = 'limitaciones'
 
     def __str__(self):

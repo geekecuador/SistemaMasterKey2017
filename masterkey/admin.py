@@ -91,6 +91,7 @@ class TallerAdmin(admin.ModelAdmin):
     list_display = ('tema', 'fecha', 'hora_inicio', 'hora_fin', 'capacidad', 'profesor', 'lugar', 'nivel',)
     filter_horizontal = ('estudiantes',)
     list_filter = ('lugar',)
+    list_per_page = 50
     actions = [export_as_csv_action("Exportar a Ecxel",
                                     fields=['tema', 'fecha', 'hora_inicio', 'hora_fin', 'capacidad', 'profesor',
                                             'lugar', 'nivel', ])]
@@ -106,6 +107,7 @@ class CursoAdmin(admin.ModelAdmin):
     filter_horizontal = ('estudiantes', 'tipo_estudiante',)
     actions = [export_as_csv_action("Exportar a Ecxel",
                                     fields=['fecha', 'hora_inicio', 'hora_fin', 'sede', 'profesor', 'tipo_nivel', ])]
+    list_per_page = 50
 
 
 @admin.register(models.Seguimiento)
@@ -114,6 +116,7 @@ class SeguimientoAdmin(admin.ModelAdmin):
     list_filter = ('estado',)
     list_editable = ('estado',)
     # raw_id_fields = ('estudiante',)
+    list_per_page = 50
 
 
 @admin.register(models.Academic_Rank)
@@ -121,6 +124,7 @@ class Academic_RankAdmin(admin.ModelAdmin):
     list_display = ('estudiante', 'nivel', 'fecha', 'hora', 'nota', 'comentarios', 'firma_alumno', 'curso',)
     raw_id_fields = ('nivel', 'estudiante')
     search_fields = ['nivel', 'estudiante', ]
+    list_per_page = 50
 
 
 @admin.register(models.Test)
@@ -128,11 +132,13 @@ class TestAdmin(admin.ModelAdmin):
     raw_id_fields = ('estudiante',)
     search_fields = ['estudiante__apellido', 'estudiante__nombre', ]
     # list_filter = ('estudiante',)
+    list_per_page = 50
 
 
 
 @admin.register(models.Limitaciones)
 class LimitacionesAdmin(admin.ModelAdmin):
+    list_per_page = 50
     pass
 
 
@@ -153,6 +159,7 @@ class NoticiasAdmin(admin.ModelAdmin):
 # Quitar en producción
 @admin.register(models.Estado)
 class EstadoAdmin(admin.ModelAdmin):
+    list_per_page = 50
     pass
 
 
