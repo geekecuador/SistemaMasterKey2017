@@ -12,7 +12,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 from cursos import obtener_cursos, inactivo
-from models import Estudiante, Noticias, Taller, Test, Curso, Limitaciones, Ciudad, Estado, Sede
+from models import Estudiante, Noticias, Taller, Test, Curso, Limitaciones, Ciudad, Estado, Sede, Nivel,Academic_Rank
 
 
 def login_view(request):
@@ -142,11 +142,16 @@ def paso3(request):
             _curso.estudiantes.add(estudiante)
             _curso.tipo_estudiante.add(estudiante.nivel)
             _curso.capacidad_maxima = _curso.capacidad_maxima - 1
+            _curso.save()
             estudiante.nivel.leccion = estudiante.nivel.leccion + 1
+            estudiante.save()
             limitacion = Limitaciones(estudiante=estudiante, fecha_reserva=datetime.datetime.today())
             limitacion.save()
-            _curso.save()
-            estudiante.save()
+            academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=estudiante.nivel_id),
+                                      fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso)
+            academico.save()
+
+
 
             estadocurso = True
         elif _curso.tipo_estudiante.count() < _curso.max_tipo:

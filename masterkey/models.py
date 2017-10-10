@@ -216,9 +216,9 @@ class Academic_Rank(models.Model):
     hora = models.TimeField()
     nota = models.CharField(max_length=15,
                             choices=ACADEMIC_RANK_CHOICES,
-                            default=G)
+                            default=G,blank=True)
     comentarios = models.CharField(max_length=35, blank=True)
-    firma_alumno = models.BooleanField()
+    firma_alumno = models.BooleanField(blank=True)
     curso = models.ForeignKey(Curso)
 
     class Meta:
