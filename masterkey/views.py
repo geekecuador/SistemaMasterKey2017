@@ -97,7 +97,11 @@ def paso1(request):
     if request.user.is_authenticated():
         username = request.user
         estudiante = Estudiante.objects.get(usuario=username)
-        return render(request, 'consulta1.html', {'username': username, 'estudiante': estudiante})
+        academico = Academic_Rank.objects.filter(nivel_id=999)
+        if len(academico) >=1:
+            return render(request, 'consulta1pasivo.html', {'username': username, 'estudiante': estudiante})
+        else:
+            return render(request, 'consulta1.html', {'username': username, 'estudiante': estudiante})
     else:
         redirect('/')
 
@@ -164,8 +168,13 @@ def paso3(request):
                 _curso.save()
                 estudiante.save()
                 estadocurso = True
+
                 limitacion = Limitaciones(estudiante=estudiante, fecha_reserva=datetime.datetime.today())
                 limitacion.save()
+
+                academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
+                                          fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
+                academico.save()
 
         inactivo(estudiante)
         return render(request, 'consulta3.html',
