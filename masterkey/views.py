@@ -102,11 +102,10 @@ def paso1(request):
         username = request.user
         estudiante = Estudiante.objects.get(usuario=username)
         academico = Academic_Rank.objects.filter(nivel_id=999).filter(estudiante=estudiante)
-
         dt = datetime.datetime.now()
         start = dt -datetime.timedelta(days=dt.weekday())
         end = start + datetime.timedelta(days=6)
-        limitacion = Limitaciones.objects.filter(fecha_reserva__range=[start,end])
+        limitacion = Limitaciones.objects.filter(fecha_reserva__range=[start,end]).filter(estudiante=estudiante)
 
         if len(academico) >= 1:
             return render(request, 'consulta1pasivo.html', {'username': username, 'estudiante': estudiante})
