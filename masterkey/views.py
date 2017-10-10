@@ -33,30 +33,26 @@ def login_view(request):
         elif request.method == 'POST':
             username = request.POST['username']
             password = request.POST['password']
-            request.user.is_active
-
             user = authenticate(request, username=username, password=password)
-            if user is not None:
-                # Exitoso
 
-                if user.status =='enabled':
-                    login(request, user)
-                    username = request.user
-                    estudiante = Estudiante.objects.get(usuario=username)
-                    fechaActual = datetime.datetime.now().date()
-                    fechaExpiracion = estudiante.fecha_de_expiracion
-                    if str(fechaExpiracion) > str(fechaActual):
-                        return redirect('/tablero')
-                    else:
-                        logout(request)
-                        return render(request, 'alertas/vencimiento.html', {})
+            if user is not None and user.is_active:
+                # Exitoso
+                login(request, user)
+                username = request.user
+                estudiante = Estudiante.objects.get(usuario=username)
+                fechaActual = datetime.datetime.now().date()
+                fechaExpiracion = estudiante.fecha_de_expiracion
+                if str(fechaExpiracion) > str(fechaActual):
+                    return redirect('/tablero')
                 else:
-                    return render(request, 'alertas/prueba.html', {})
+                    logout(request)
+                    return render(request, 'alertas/vencimiento.html', {})
 
             else:
                 # Fallido
                 error = True
                 return render(request, 'page-login.html', {'error': error})
+
 
 def login_android(request):
     if request.user.is_authenticated():
