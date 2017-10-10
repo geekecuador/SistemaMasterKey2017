@@ -17,8 +17,14 @@ from models import Estudiante, Noticias, Taller, Test, Curso, Limitaciones, Ciud
 
 def login_view(request):
     if request.user.is_authenticated():
+        username = request.user
 
-        return redirect('/tablero')
+        try:
+            estudiante = Estudiante.objects.get(usuario=username)
+            return redirect('/tablero')
+        except:
+            return redirect('/admin')
+
     else:
         error = False
         if request.method == 'GET':
