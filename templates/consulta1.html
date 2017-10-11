@@ -2,6 +2,7 @@
 
 {% block  content %}
     {% load static %}
+{% load user_agents %}
 
     <div class="col-sm-12">
         <div class="card-box">
@@ -25,8 +26,17 @@
                                 <div class="col-sm-8">
                                     <div class="input-group">
                                         {#                                    placeholder="mm/dd/yyyy"#}
-                                        <input type="text" class="form-control" id="datepicker-autoclose"
+                                        {% if request|is_pc %}
+    <input type="text" class="form-control" id="datepicker-autoclose"
                                                placeholder="mm/dd/yyyy" name="fecha_leccion">
+{% endif %}
+
+                                    {% if request|is_mobile %}
+     <input type="date" class="form-control" placeholder="mm/dd/yyyy" name="fecha_leccion">
+{% endif %}
+
+
+
                                         {#                                    <input type="date" class="form-control" name="fecha">#}
 
                                         <span class="input-group-addon bg-primary b-0 text-white"><i
