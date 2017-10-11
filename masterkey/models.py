@@ -312,7 +312,9 @@ post_save.connect(send_user_email, sender=Estudiante)
 def activateUser(sender, instance, **kwargs):
     if kwargs['created']:
         test = Test.objects.get(pk=instance.pk)
-        test.estudiante.usuario.is_active = True
-        test.save()
+        estudiante = test.estudiante
+        usuario = estudiante.usuario
+        usuario.is_active = True
+        usuario.save()
 
 post_save.connect(activateUser, sender=Test)
