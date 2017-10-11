@@ -21,7 +21,6 @@ def login_view(request):
 
         try:
             estudiante = Estudiante.objects.get(usuario=username)
-            inactivo(estudiante)
             return redirect('/tablero')
         except:
             return redirect('/admin')
@@ -87,7 +86,6 @@ def tablero(request):
     if request.user.is_authenticated():
         username = request.user
         estudiante = Estudiante.objects.get(usuario=username)
-        inactivo(estudiante)
         noticias = Noticias.objects.filter(
                 fecha__range=[datetime.datetime.now(), datetime.datetime.now() + datetime.timedelta(days=15)])
         return render(request, 'index.html', {'username': username, 'estudiante': estudiante, 'noticias': noticias})

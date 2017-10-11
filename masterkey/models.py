@@ -307,5 +307,13 @@ def send_user_email(sender, instance, **kwargs):
             send_mail('BIENVENIDA '+estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec', [estudiante.usuario.email], fail_silently=False,
                       html_message=html_part)
 
-
 post_save.connect(send_user_email, sender=Estudiante)
+
+def activateUser(sender, instance, **kwargs):
+    if kwargs['created']:
+        test = Test.objects.get(pk=instance.pk)
+        estudiante = test.estudiante
+        usuario = estudiante.usuario
+        usuario.is_active = True
+
+post_save.connect(activateUser, sender=Test)
