@@ -238,7 +238,7 @@ class Limitaciones(models.Model):
         verbose_name_plural = 'limitaciones'
 
     def __str__(self):
-        return "%s" % str(self.estudiante.cedula)
+        return "%s" % str(self.estudiante.usuario.get_full_name())
 
 
 class Test(models.Model):
