@@ -139,8 +139,8 @@ class TestAdmin(admin.ModelAdmin):
 @admin.register(models.Limitaciones)
 class LimitacionesAdmin(admin.ModelAdmin):
     list_per_page = 50
-    search_fields = ['estudiante', ]
-    pass
+    search_fields = ['estudiante__usuario__first_name','estudiante__usuario__last_name' ]
+
 
 
 @admin.register(models.Ciudad)
