@@ -104,7 +104,6 @@ def paso1(request):
         start = dt -datetime.timedelta(days=dt.weekday())
         end = start + datetime.timedelta(days=6)
         limitacion = Limitaciones.objects.filter(fecha_reserva__range=[start,end]).filter(estudiante=estudiante)
-
         if len(academico) >= 1:
             return render(request, 'consulta1pasivo.html', {'username': username, 'estudiante': estudiante})
         elif len(limitacion) >= 3:
@@ -144,11 +143,12 @@ def paso3(request):
     username = None
     global estadocurso
     estadocurso = False
+
     if request.user.is_authenticated():
         username = request.user
         estudiante = Estudiante.objects.get(usuario=username)
-
         _curso = Curso.objects.get(pk=request.POST.getlist('id')[0])
+
         if _curso.tipo_nivel == 'xx' or _curso.tipo_leccion == 0:
             _curso.tipo_nivel = estudiante.nivel.nivel
             _curso.tipo_leccion = estudiante.nivel.leccion
@@ -164,10 +164,8 @@ def paso3(request):
                                       fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
 
             academico.save()
-
-
-
             estadocurso = True
+
         elif _curso.tipo_estudiante.count() < _curso.max_tipo:
             if _curso.estudiantes.all().filter(pk=estudiante.cedula).count() == 0:
                 estudiante.nivel.leccion = estudiante.nivel.leccion + 1
@@ -184,7 +182,6 @@ def paso3(request):
                 academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
                                           fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
                 academico.save()
-
 
         return render(request, 'consulta3.html',
                       {'username': username, 'estudiante': estudiante, 'confirmacion': estadocurso,

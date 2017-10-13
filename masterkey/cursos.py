@@ -63,7 +63,7 @@ def obtener_cursos(estudiante, fecha):
         if estudiante.nivel.leccion == 15:
             cursos1 = Curso.objects.filter(fecha=fecha).filter(capacidad_maxima__gt=0). \
                 filter(
-                tipo_leccion__in=range(estudiante.nivel.leccion - 5, estudiante.nivel.leccion+ 5)). \
+                tipo_leccion__in=range(estudiante.nivel.leccion - 5, estudiante.nivel.leccion + 5)). \
                 filter(tipo_nivel=estudiante.nivel.nivel).filter(sede__ciudad=estudiante.ciudad).exclude(
                 tipo_nivel='xx').exclude(estudiantes=estudiante)
             cursos2 = Curso.objects.filter(fecha=fecha).filter(capacidad_maxima__gt=0). \
@@ -136,7 +136,7 @@ def obtener_cursos(estudiante, fecha):
             cursos = list(chain(cursos1, cursos2))
             return cursos
     elif estudiante.nivel.nivel == 'A2':
-        print "Estudiante A2"
+        print ("Estudiante A2")
         if (estudiante.nivel.leccion == 1) or (estudiante.nivel.leccion == 2) or (estudiante.nivel.leccion == 3) \
                 or (estudiante.nivel.leccion == 4) or (estudiante.nivel.leccion == 5) \
                 or (estudiante.nivel.leccion == 6) or (estudiante.nivel.leccion == 7) \
@@ -198,7 +198,7 @@ def obtener_cursos(estudiante, fecha):
         if estudiante.nivel.leccion == 19:
             cursos1 = Curso.objects.filter(fecha=fecha).filter(capacidad_maxima__gt=0). \
                 filter(
-                tipo_leccion__in=range(estudiante.nivel.leccion - 5, estudiante.nivel.leccion+ 5)). \
+                tipo_leccion__in=range(estudiante.nivel.leccion - 5, estudiante.nivel.leccion + 5)). \
                 filter(tipo_nivel=estudiante.nivel.nivel).filter(sede__ciudad=estudiante.ciudad).exclude(
                 tipo_nivel='xx').exclude(estudiantes=estudiante)
             cursos2 = Curso.objects.filter(fecha=fecha).filter(capacidad_maxima__gt=0). \
@@ -229,7 +229,7 @@ def obtener_cursos(estudiante, fecha):
         if (estudiante.nivel.leccion == 26):
             cursos1 = Curso.objects.filter(fecha=fecha).filter(capacidad_maxima__gt=0). \
                 filter(
-                tipo_leccion__in=range(estudiante.nivel.leccion - 5, estudiante.nivel.leccion+ 5)). \
+                tipo_leccion__in=range(estudiante.nivel.leccion - 5, estudiante.nivel.leccion + 5)). \
                 filter(tipo_nivel=estudiante.nivel.nivel).filter(sede__ciudad=estudiante.ciudad).exclude(
                 tipo_nivel='xx').exclude(estudiantes=estudiante)
             cursos2 = Curso.objects.filter(fecha=fecha).filter(capacidad_maxima__gt=0). \
@@ -259,7 +259,7 @@ def obtener_cursos(estudiante, fecha):
         if estudiante.nivel.leccion == 29:
             cursos1 = Curso.objects.filter(fecha=fecha).filter(capacidad_maxima__gt=0). \
                 filter(
-                tipo_leccion__in=range(estudiante.nivel.leccion - 5, estudiante.nivel.leccion+ 5)). \
+                tipo_leccion__in=range(estudiante.nivel.leccion - 5, estudiante.nivel.leccion + 5)). \
                 filter(tipo_nivel=estudiante.nivel.nivel).filter(sede__ciudad=estudiante.ciudad).exclude(
                 tipo_nivel='xx').exclude(estudiantes=estudiante)
             cursos2 = Curso.objects.filter(fecha=fecha).filter(capacidad_maxima__gt=0). \
@@ -323,7 +323,7 @@ def obtener_cursos(estudiante, fecha):
         if (estudiante.nivel.leccion == 10):
             cursos1 = Curso.objects.filter(fecha=fecha).filter(capacidad_maxima__gt=0). \
                 filter(
-                tipo_leccion__in=range(estudiante.nivel.leccion - 5, estudiante.nivel.leccion+ 5)). \
+                tipo_leccion__in=range(estudiante.nivel.leccion - 5, estudiante.nivel.leccion + 5)). \
                 filter(tipo_nivel=estudiante.nivel.nivel).filter(sede__ciudad=estudiante.ciudad).exclude(
                 tipo_nivel='xx').exclude(estudiantes=estudiante)
             cursos2 = Curso.objects.filter(fecha=fecha).filter(capacidad_maxima__gt=0). \
@@ -384,7 +384,7 @@ def obtener_cursos(estudiante, fecha):
         if (estudiante.nivel.leccion == 20):
             cursos1 = Curso.objects.filter(fecha=fecha).filter(capacidad_maxima__gt=0). \
                 filter(
-                tipo_leccion__in=range(estudiante.nivel.leccion - 5, estudiante.nivel.leccion+ 5)). \
+                tipo_leccion__in=range(estudiante.nivel.leccion - 5, estudiante.nivel.leccion + 5)). \
                 filter(tipo_nivel=estudiante.nivel.nivel).filter(sede__ciudad=estudiante.ciudad).exclude(
                 tipo_nivel='xx').exclude(estudiantes=estudiante)
             cursos2 = Curso.objects.filter(fecha=fecha).filter(capacidad_maxima__gt=0). \
@@ -448,7 +448,7 @@ def obtener_cursos(estudiante, fecha):
         if estudiante.nivel.leccion == 10:
             cursos1 = Curso.objects.filter(fecha=fecha).filter(capacidad_maxima__gt=0). \
                 filter(
-                tipo_leccion__in=range(estudiante.nivel.leccion - 5, estudiante.nivel.leccion+ 5)). \
+                tipo_leccion__in=range(estudiante.nivel.leccion - 5, estudiante.nivel.leccion + 5)). \
                 filter(tipo_nivel=estudiante.nivel.nivel).filter(sede__ciudad=estudiante.ciudad).exclude(
                 tipo_nivel='xx').exclude(estudiantes=estudiante)
             cursos2 = Curso.objects.filter(fecha=fecha).filter(capacidad_maxima__gt=0). \
@@ -499,7 +499,7 @@ def obtener_cursos(estudiante, fecha):
         if estudiante.nivel.leccion == 19:
             cursos1 = Curso.objects.filter(fecha=fecha).filter(capacidad_maxima__gt=0). \
                 filter(
-                tipo_leccion__in=range(estudiante.nivel.leccion - 5, estudiante.nivel.leccion+ 5)). \
+                tipo_leccion__in=range(estudiante.nivel.leccion - 5, estudiante.nivel.leccion + 5)). \
                 filter(tipo_nivel=estudiante.nivel.nivel).filter(sede__ciudad=estudiante.ciudad).exclude(
                 tipo_nivel='xx').exclude(estudiantes=estudiante)
             cursos2 = Curso.objects.filter(fecha=fecha).filter(capacidad_maxima__gt=0). \
@@ -509,7 +509,7 @@ def obtener_cursos(estudiante, fecha):
         if estudiante.nivel.leccion == 20:
             cursos1 = Curso.objects.filter(fecha=fecha).filter(capacidad_maxima__gt=0). \
                 filter(
-                tipo_leccion__in=range(estudiante.nivel.leccion - 5, estudiante.nivel.leccion+ 5)). \
+                tipo_leccion__in=range(estudiante.nivel.leccion - 5, estudiante.nivel.leccion + 5)). \
                 filter(tipo_nivel=estudiante.nivel.nivel).filter(sede__ciudad=estudiante.ciudad).exclude(
                 tipo_nivel='xx').exclude(estudiantes=estudiante)
             cursos2 = Curso.objects.filter(fecha=fecha).filter(capacidad_maxima__gt=0). \
@@ -517,9 +517,10 @@ def obtener_cursos(estudiante, fecha):
             cursos = list(chain(cursos1, cursos2))
             return cursos
 
+
 def inactivo(estudiante):
     if estudiante.nivel.nivel == 'A1':
-        if (estudiante.nivel.leccion == 15) or (estudiante.nivel.leccion ==32):
+        if (estudiante.nivel.leccion == 15) or (estudiante.nivel.leccion == 32):
             estudiante.usuario.is_active = False
             estudiante.save()
     elif estudiante.nivel.nivel == 'A2':
