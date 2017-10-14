@@ -173,7 +173,6 @@ def paso3(request):
         elif _curso.estudiantes.all().filter(pk=estudiante.cedula).count() == 0 and _curso.tipo_estudiante.count() <= 3:
             print("Curso reusado")
             _curso.estudiantes.add(estudiante)
-            x = _curso.tipo_estudiante.values()
             _curso.max_tipo = _curso.max_tipo - 1
             _curso.capacidad_maxima = _curso.capacidad_maxima - 1
             _curso.tipo_estudiante.add(estudiante.nivel)
