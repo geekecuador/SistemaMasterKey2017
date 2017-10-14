@@ -471,7 +471,7 @@ def exportar_cursos_xls(fecha, sede):
     #                                                      'fecha_nacimiento', 'telefono',
     #                                                      'Estudiante__estado__seguimiento__comentario').filter(
     #     Estudiante__estado_id=estado).filter(ciudad_id=ciudad).distinct('usuario__email')
-    cursosExportar = Curso.objects.filter(sede_id=sede).filter(fecha=fecha).prefetch_related('estudiantes')
+    cursosExportar = Curso.objects.filter(sede_id=sede).filter(fecha=fecha).prefetch_related('estudiantes').order_by('hora_inicio')
     for x in cursosExportar:
         print ('Imprimiendo')
         print (x.hora_inicio)
@@ -484,7 +484,7 @@ def exportar_cursos_xls(fecha, sede):
         b = ""
         for a in x.estudiantes.prefetch_related('alumnos'):
 
-            b = b+str(a)
+            b = b+' '+str(a)
             print(b)
         ws.write(row_num, 3, b, font_style)
 
