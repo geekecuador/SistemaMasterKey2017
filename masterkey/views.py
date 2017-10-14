@@ -328,42 +328,42 @@ class ExportarHorarios(View):
         return exportar_cursos_xls(fecha, sede)
 
 
-def exportar_estudiantes__activos_xls(request):
-    response = HttpResponse(content_type='application/ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="users.xls"'
-
-    wb = xlwt.Workbook(encoding='utf-8')
-    ws = wb.add_sheet('Estudiantes_Activos')
-
-    # Sheet header, first row
-    row_num = 0
-
-    font_style = xlwt.XFStyle()
-    font_style.font.bold = True
-
-    columns = ['Usuario', 'Nombre', 'Apellido', 'Email', 'Nivel', 'Lección', 'Contrato', 'Cédula', 'Inicio',
-               'Termino', 'Fecha_Nacimiento', 'Teléfono', 'Observaciones']
-
-    for col_num in range(len(columns)):
-        ws.write(row_num, col_num, columns[col_num], font_style)
-
-    # Sheet body, remaining rows
-    font_style = xlwt.XFStyle()
-    estudiantes_activos = Estudiante.objects.values_list('usuario__username', 'usuario__first_name',
-                                                         'usuario__last_name', 'usuario__email',
-                                                         'nivel__nivel', 'nivel__leccion', 'contrato',
-                                                         'cedula', 'contrato__fecha_creacion', 'contrato__duracion',
-                                                         'fecha_nacimiento', 'telefono', 'Estudiante__estado')
-
-    # .values_list('user', 'first_name', 'last_name', 'email')
-    # rows = User.objects.values()
-    for row in estudiantes_activos:
-        row_num += 1
-        for col_num in range(len(row)):
-            ws.write(row_num, col_num, row[col_num], font_style)
-
-    wb.save(response)
-    return response
+# def exportar_estudiantes__activos_xls(request):
+#     response = HttpResponse(content_type='application/ms-excel')
+#     response['Content-Disposition'] = 'attachment; filename="users.xls"'
+#
+#     wb = xlwt.Workbook(encoding='utf-8')
+#     ws = wb.add_sheet('Estudiantes_Activos')
+#
+#     # Sheet header, first row
+#     row_num = 0
+#
+#     font_style = xlwt.XFStyle()
+#     font_style.font.bold = True
+#
+#     columns = ['Usuario', 'Nombre', 'Apellido', 'Email', 'Nivel', 'Lección', 'Contrato', 'Cédula', 'Inicio',
+#                'Termino', 'Fecha_Nacimiento', 'Teléfono', 'Observaciones']
+#
+#     for col_num in range(len(columns)):
+#         ws.write(row_num, col_num, columns[col_num], font_style)
+#
+#     # Sheet body, remaining rows
+#     font_style = xlwt.XFStyle()
+#     estudiantes_activos = Estudiante.objects.values_list('usuario__username', 'usuario__first_name',
+#                                                          'usuario__last_name', 'usuario__email',
+#                                                          'nivel__nivel', 'nivel__leccion', 'contrato',
+#                                                          'cedula', 'contrato__fecha_creacion', 'contrato__duracion',
+#                                                          'fecha_nacimiento', 'telefono', 'Estudiante__estado')
+#
+#     # .values_list('user', 'first_name', 'last_name', 'email')
+#     # rows = User.objects.values()
+#     for row in estudiantes_activos:
+#         row_num += 1
+#         for col_num in range(len(row)):
+#             ws.write(row_num, col_num, row[col_num], font_style)
+#
+#     wb.save(response)
+#     return response
 
 
 def exportar_estudiantes_xls(estado, ciudad):
@@ -406,38 +406,79 @@ def exportar_estudiantes_xls(estado, ciudad):
     return response
 
 
+# def exportar_cursos_xls(fecha, sede):
+#     response = HttpResponse(content_type='application/ms-excel')
+#     response['Content-Disposition'] = 'attachment; filename="users.xls"'
+#     wb = xlwt.Workbook(encoding='utf-8')
+#     ws = wb.add_sheet('Estudiantes_Activos')
+#
+#     # Sheet header, first row
+#     row_num = 0
+#     font_style = xlwt.XFStyle()
+#     font_style.font.bold = True
+#     columns = ['Hour', 'Teacher', 'Estudiante']
+#     for col_num in range(len(columns)):
+#         ws.write(row_num, col_num, columns[col_num], font_style)
+#
+#     # Sheet body, remaining rows
+#     font_style = xlwt.XFStyle()
+#     cursos = Curso.objects.all().filter(fecha=fecha).filter(sede_id=sede)
+#     cursoId = []
+#     for curso in cursos:
+#         print('Entrando al for de cursos')
+#         print(curso.id)
+#         cursoId.append(curso.id)
+#
+#     print(cursos)
+#     print("Longitud de :")
+#     print(len(cursoId))
+#     for numerodecursos in range(len(cursoId)):
+#         print('Imprimiendo rango de numeros')
+#         print(numerodecursos)
+#         row_num += 1
+#
+#         c = Curso.objects.all().filter(pk=cursoId.index(numerodecursos))
+#         ws.write(row_num, numerodecursos, c.get().profesor.nombre, font_style)
+#     wb.save(response)
+#     return response
+
+
+
 def exportar_cursos_xls(fecha, sede):
     response = HttpResponse(content_type='application/ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="users.xls"'
+    response['Content-Disposition'] = 'attachment; filename="horarios.xls"'
+
     wb = xlwt.Workbook(encoding='utf-8')
-    ws = wb.add_sheet('Estudiantes_Activos')
+    ws = wb.add_sheet('Horarios'+fecha)
 
     # Sheet header, first row
     row_num = 0
+
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
-    columns = ['Hour', 'Teacher', 'Estudiante']
+
+    columns = ['Usuario', 'Nombre', 'Apellido', 'Email', 'Nivel', 'Lección', 'Contrato', 'Cédula', 'Inicio', 'Termino',
+               'Fecha_Nacimiento', 'Teléfono', 'Observaciones']
+
     for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num], font_style)
 
     # Sheet body, remaining rows
     font_style = xlwt.XFStyle()
-    cursos = Curso.objects.all().filter(fecha=fecha).filter(sede_id=sede)
-    cursoId = []
-    for curso in cursos:
-        print('Entrando al for de cursos')
-        print(curso.id)
-        cursoId.append(curso.id)
+    estudiantes_activos = Estudiante.objects.values_list('usuario__username', 'usuario__first_name',
+                                                         'usuario__last_name', 'usuario__email',
+                                                         'nivel__nivel', 'nivel__leccion', 'contrato', 'cedula',
+                                                         'contrato__fecha_creacion', 'contrato__duracion',
+                                                         'fecha_nacimiento', 'telefono',
+                                                         'Estudiante__estado__seguimiento__comentario').filter(
+        Estudiante__estado_id=estado).filter(ciudad_id=ciudad).distinct('usuario__email')
 
-    print(cursos)
-    print("Longitud de :")
-    print(len(cursoId))
-    for numerodecursos in range(len(cursoId)):
-        print('Imprimiendo rango de numeros')
-        print(numerodecursos)
+    # .values_list('user', 'first_name', 'last_name', 'email')
+    # rows = User.objects.values()
+    for row in estudiantes_activos:
         row_num += 1
+        for col_num in range(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
 
-        c = Curso.objects.all().filter(pk=cursoId.index(numerodecursos))
-        ws.write(row_num, numerodecursos, c.get().profesor.nombre, font_style)
     wb.save(response)
     return response
