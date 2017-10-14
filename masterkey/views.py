@@ -449,7 +449,7 @@ def exportar_cursos_xls(fecha, sede):
     response['Content-Disposition'] = 'attachment; filename="horarios.xls"'
 
     wb = xlwt.Workbook(encoding='utf-8')
-    ws = wb.add_sheet('Horarios'+fecha)
+    ws = wb.add_sheet('Horarios'+str(fecha))
 
     # Sheet header, first row
     row_num = 0
