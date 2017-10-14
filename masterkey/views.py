@@ -99,8 +99,8 @@ def paso1(request):
     if request.user.is_authenticated():
         username = request.user
         estudiante = Estudiante.objects.get(usuario=username)
-        academico = Academic_Rank.objects.filter(nivel_id=2).filter(estudiante=estudiante)
-        # academico = Academic_Rank.objects.filter(nivel_id=999).filter(estudiante=estudiante)
+        # academico = Academic_Rank.objects.filter(nivel_id=2).filter(estudiante=estudiante)
+        academico = Academic_Rank.objects.filter(nivel_id=999).filter(estudiante=estudiante)
         dt = datetime.datetime.now()
         start = dt - datetime.timedelta(days=dt.weekday())
         end = start + datetime.timedelta(days=6)
@@ -161,11 +161,11 @@ def paso3(request):
             _curso.save()
             limitacion = Limitaciones(estudiante=estudiante, fecha_reserva=datetime.datetime.today())
             limitacion.save()
-            academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=2),
-                                      fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
-
-            # academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
+            # academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=2),
             #                           fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
+
+            academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
+                                      fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
             academico.save()
             estadocurso = True
 
@@ -181,11 +181,11 @@ def paso3(request):
             estadocurso = True
             limitacion = Limitaciones(estudiante=estudiante, fecha_reserva=datetime.datetime.today())
             limitacion.save()
-            academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=2),
-                                      fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
-
-            # academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
+            # academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=2),
             #                           fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
+
+            academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
+                                      fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
             academico.save()
 
         return render(request, 'consulta3.html',
