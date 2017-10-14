@@ -11,8 +11,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
 
-from cursos import obtener_cursos, inactivo
-from models import Estudiante, Noticias, Taller, Test, Curso, Limitaciones, Ciudad, Estado, Sede, Nivel,Academic_Rank
+from cursos import obtener_cursos
+from models import Estudiante, Noticias, Taller, Test, Curso, Limitaciones, Ciudad, Estado, Sede, Nivel, Academic_Rank
 
 
 def login_view(request):
@@ -87,7 +87,7 @@ def tablero(request):
         username = request.user
         estudiante = Estudiante.objects.get(usuario=username)
         noticias = Noticias.objects.filter(
-                fecha__range=[datetime.datetime.now(), datetime.datetime.now() + datetime.timedelta(days=15)])
+            fecha__range=[datetime.datetime.now(), datetime.datetime.now() + datetime.timedelta(days=15)])
         return render(request, 'index.html', {'username': username, 'estudiante': estudiante, 'noticias': noticias})
     else:
         redirect('/')
@@ -99,11 +99,12 @@ def paso1(request):
     if request.user.is_authenticated():
         username = request.user
         estudiante = Estudiante.objects.get(usuario=username)
-        academico = Academic_Rank.objects.filter(nivel_id=999).filter(estudiante=estudiante)
+        academico = Academic_Rank.objects.filter(nivel_id=2).filter(estudiante=estudiante)
+        # academico = Academic_Rank.objects.filter(nivel_id=999).filter(estudiante=estudiante)
         dt = datetime.datetime.now()
-        start = dt -datetime.timedelta(days=dt.weekday())
+        start = dt - datetime.timedelta(days=dt.weekday())
         end = start + datetime.timedelta(days=6)
-        limitacion = Limitaciones.objects.filter(fecha_reserva__range=[start,end]).filter(estudiante=estudiante)
+        limitacion = Limitaciones.objects.filter(fecha_reserva__range=[start, end]).filter(estudiante=estudiante)
         if len(academico) >= 1:
             return render(request, 'consulta1pasivo.html', {'username': username, 'estudiante': estudiante})
         elif len(limitacion) >= 3:
@@ -149,39 +150,43 @@ def paso3(request):
         estudiante = Estudiante.objects.get(usuario=username)
         _curso = Curso.objects.get(pk=request.POST.getlist('id')[0])
 
-        if _curso.tipo_nivel == 'xx' or _curso.tipo_leccion == 0:
+        if _curso.tipo_nivel == 'xx' and _curso.tipo_leccion == 0 and _curso.max_tipo == 3:
+            print("CURSO NUEVO")
             _curso.tipo_nivel = estudiante.nivel.nivel
             _curso.tipo_leccion = estudiante.nivel.leccion
             _curso.estudiantes.add(estudiante)
             _curso.tipo_estudiante.add(estudiante.nivel)
             _curso.capacidad_maxima = _curso.capacidad_maxima - 1
+            _curso.max_tipo = _curso.max_tipo - 1
             _curso.save()
-            estudiante.nivel.leccion = estudiante.nivel.leccion + 1
-            estudiante.save()
             limitacion = Limitaciones(estudiante=estudiante, fecha_reserva=datetime.datetime.today())
             limitacion.save()
-            academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
+            academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=2),
                                       fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
 
+            # academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
+            #                           fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
             academico.save()
             estadocurso = True
 
-        elif _curso.tipo_estudiante.count() < _curso.max_tipo:
-            if _curso.estudiantes.all().filter(pk=estudiante.cedula).count() == 0:
-                estudiante.nivel.leccion = estudiante.nivel.leccion + 1
-                _curso.estudiantes.add(estudiante)
-                _curso.capacidad_maxima = _curso.capacidad_maxima - 1
-                _curso.tipo_estudiante.add(estudiante.nivel)
-                _curso.save()
-                estudiante.save()
-                estadocurso = True
 
-                limitacion = Limitaciones(estudiante=estudiante, fecha_reserva=datetime.datetime.today())
-                limitacion.save()
+        elif _curso.estudiantes.all().filter(pk=estudiante.cedula).count() == 0 and _curso.tipo_estudiante.count() <= 3:
+            print("Curso reusado")
+            _curso.estudiantes.add(estudiante)
+            x = _curso.tipo_estudiante.values()
+            _curso.max_tipo = _curso.max_tipo - 1
+            _curso.capacidad_maxima = _curso.capacidad_maxima - 1
+            _curso.tipo_estudiante.add(estudiante.nivel)
+            _curso.save()
+            estadocurso = True
+            limitacion = Limitaciones(estudiante=estudiante, fecha_reserva=datetime.datetime.today())
+            limitacion.save()
+            academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=2),
+                                      fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
 
-                academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
-                                          fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
-                academico.save()
+            # academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
+            #                           fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
+            academico.save()
 
         return render(request, 'consulta3.html',
                       {'username': username, 'estudiante': estudiante, 'confirmacion': estadocurso,
@@ -208,7 +213,8 @@ def academic_rank(request):
         username = request.user
         estudiante = Estudiante.objects.get(usuario=username)
         academic_rank = Academic_Rank.objects.filter(estudiante=estudiante)
-        return render(request, 'academic_rank.html', {'username': username, 'estudiante': estudiante,'academic_rank':academic_rank})
+        return render(request, 'academic_rank.html',
+                      {'username': username, 'estudiante': estudiante, 'academic_rank': academic_rank})
     else:
         redirect('/')
 

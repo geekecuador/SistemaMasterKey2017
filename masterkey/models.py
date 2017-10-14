@@ -181,7 +181,7 @@ class Curso(models.Model):
     estudiantes = models.ManyToManyField(Estudiante, blank=True)
     tipo_nivel = models.TextField(max_length='2', default='xx')
     tipo_leccion = models.PositiveSmallIntegerField(default=0)
-    max_tipo = models.PositiveSmallIntegerField(default=3)
+    max_tipo = models.SmallIntegerField(default=3)
     tipo_estudiante = models.ManyToManyField(Nivel, related_name='tipo_estudiante', blank=True)
 
     class Meta:
