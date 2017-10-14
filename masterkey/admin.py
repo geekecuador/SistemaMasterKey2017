@@ -92,7 +92,7 @@ class TallerAdmin(admin.ModelAdmin):
     filter_horizontal = ('estudiantes',)
     list_filter = ('lugar',)
     list_per_page = 50
-    actions = [export_as_csv_action("Exportar a Ecxel",
+    actions = [export_as_csv_action("Exportar a Excel",
                                     fields=['tema', 'fecha', 'hora_inicio', 'hora_fin', 'capacidad', 'profesor',
                                             'lugar', 'nivel', ])]
 
@@ -105,7 +105,7 @@ class CursoAdmin(admin.ModelAdmin):
     list_editable = ('profesor',)
     list_filter = ('sede', ('fecha', DateRangeFilter), 'hora_inicio',)
     filter_horizontal = ('estudiantes', 'tipo_estudiante',)
-    actions = [export_as_csv_action("Exportar a Ecxel",
+    actions = [export_as_csv_action("Exportar a Excel",
                                     fields=['fecha', 'hora_inicio', 'hora_fin', 'sede', 'profesor', 'tipo_nivel', ])]
     list_per_page = 50
 

@@ -471,7 +471,7 @@ def exportar_cursos_xls(fecha, sede):
     #                                                      'fecha_nacimiento', 'telefono',
     #                                                      'Estudiante__estado__seguimiento__comentario').filter(
     #     Estudiante__estado_id=estado).filter(ciudad_id=ciudad).distinct('usuario__email')
-    cursosExportar = Curso.objects.filter(sede_id=sede).filter(fecha=fecha).values_list('hora_inicio','profesor','tipo_nivel','estudiantes')
+    cursosExportar = Curso.objects.filter(sede_id=sede).filter(fecha=fecha).values_list('hora_inicio','profesor','tipo_nivel','estudiante__usuario__first_name')
 
     # .values_list('user', 'first_name', 'last_name', 'email')
     # rows = User.objects.values()
