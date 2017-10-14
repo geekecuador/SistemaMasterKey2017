@@ -457,25 +457,25 @@ def exportar_cursos_xls(fecha, sede):
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
 
-    columns = ['Usuario', 'Nombre', 'Apellido', 'Email', 'Nivel', 'Lección', 'Contrato', 'Cédula', 'Inicio', 'Termino',
-               'Fecha_Nacimiento', 'Teléfono', 'Observaciones']
+    columns = ['Hora', 'Teacher', 'Book', 'Student']
 
     for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num], font_style)
 
     # Sheet body, remaining rows
     font_style = xlwt.XFStyle()
-    estudiantes_activos = Estudiante.objects.values_list('usuario__username', 'usuario__first_name',
-                                                         'usuario__last_name', 'usuario__email',
-                                                         'nivel__nivel', 'nivel__leccion', 'contrato', 'cedula',
-                                                         'contrato__fecha_creacion', 'contrato__duracion',
-                                                         'fecha_nacimiento', 'telefono',
-                                                         'Estudiante__estado__seguimiento__comentario').filter(
-        Estudiante__estado_id=estado).filter(ciudad_id=ciudad).distinct('usuario__email')
+    # cursosExportar = Estudiante.objects.values_list('usuario__username', 'usuario__first_name',
+    #                                                      'usuario__last_name', 'usuario__email',
+    #                                                      'nivel__nivel', 'nivel__leccion', 'contrato', 'cedula',
+    #                                                      'contrato__fecha_creacion', 'contrato__duracion',
+    #                                                      'fecha_nacimiento', 'telefono',
+    #                                                      'Estudiante__estado__seguimiento__comentario').filter(
+    #     Estudiante__estado_id=estado).filter(ciudad_id=ciudad).distinct('usuario__email')
+    cursosExportar = Curso.objects.filter(sede_id=sede).filter(fecha=fecha).values_list('hora_inicio','profesor','tipo_nivel','estudiantes')
 
     # .values_list('user', 'first_name', 'last_name', 'email')
     # rows = User.objects.values()
-    for row in estudiantes_activos:
+    for row in cursosExportar:
         row_num += 1
         for col_num in range(len(row)):
             ws.write(row_num, col_num, row[col_num], font_style)
