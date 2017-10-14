@@ -471,14 +471,31 @@ def exportar_cursos_xls(fecha, sede):
     #                                                      'fecha_nacimiento', 'telefono',
     #                                                      'Estudiante__estado__seguimiento__comentario').filter(
     #     Estudiante__estado_id=estado).filter(ciudad_id=ciudad).distinct('usuario__email')
-    cursosExportar = Curso.objects.filter(sede_id=sede).filter(fecha=fecha).values_list('hora_inicio','profesor__nombre','tipo_nivel','estudiantes__usuario__first_name','estudiantes__usuario__last_name')
+    cursosExportar = Curso.objects.filter(sede_id=sede).filter(fecha=fecha).prefetch_related('estudiantes')
+    for x in cursosExportar:
+        print ('Imprimiendo')
+        print (x.hora_inicio)
+        print (x.profesor)
+        print (x.estudiantes)
+        row_num += 1
+        ws.write(row_num, 0, str(x.hora_inicio), font_style)
+        ws.write(row_num, 1, x.profesor.nombre, font_style)
+        ws.write(row_num, 2, x.tipo_nivel, font_style)
+        b = ""
+        for a in x.estudiantes.prefetch_related('alumnos'):
+
+            b = b+str(a)
+            print(b)
+        ws.write(row_num, 3, b, font_style)
+
+
 
     # .values_list('user', 'first_name', 'last_name', 'email')
     # rows = User.objects.values()
-    for row in cursosExportar:
-        row_num += 1
-        for col_num in range(len(row)):
-            ws.write(row_num, col_num, row[col_num], font_style)
+    # for row in cursosExportar:
+    #     row_num += 1
+    #     for col_num in range(len(row)):
+    #         ws.write(row_num, col_num, row[col_num], font_style)
 
     wb.save(response)
     return response
