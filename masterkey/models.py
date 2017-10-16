@@ -86,7 +86,8 @@ class Estudiante(models.Model):
     nivel = models.ForeignKey(Nivel)
 
     def __str__(self):
-        return str(self.usuario.get_full_name().encode('utf-8')) + " " + str(self.nivel.tema)
+        return str(self.usuario.get_full_name().encode(
+            'utf-8')) + " " + self.nivel.nivel + " " + self.nivel.leccion + " " + str(self.nivel.tema)
 
 
 class Contrato(models.Model):
