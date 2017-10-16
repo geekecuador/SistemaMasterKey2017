@@ -7,10 +7,11 @@ import datetime
 import xlwt
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
 from django.views import View
-from django.views.generic import TemplateView
 
 from cursos import obtener_cursos
 from models import Estudiante, Noticias, Taller, Test, Curso, Limitaciones, Ciudad, Estado, Sede, Nivel, Academic_Rank
@@ -164,7 +165,16 @@ def paso3(request):
                                           fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
                 academico.save()
                 estadocurso = True
+                ctx = {
+                    'usuario': estudiante.usuario.get_username(),
 
+                    'curso': _curso,
+
+                }
+                html_part = render_to_string('email/reservacion.html', ctx)
+                send_mail('RESERVACIÓN ' + estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec',
+                          [estudiante.usuario.email], fail_silently=False,
+                          html_message=html_part)
 
             elif _curso.estudiantes.all().filter(
                     pk=estudiante.cedula).count() == 0 and _curso.tipo_estudiante.count() <= 3:
@@ -179,6 +189,16 @@ def paso3(request):
                 academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
                                           fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
                 academico.save()
+                ctx = {
+                    'usuario': estudiante.usuario.get_username(),
+
+                    'curso': _curso,
+
+                }
+                html_part = render_to_string('email/reservacion.html', ctx)
+                send_mail('RESERVACIÓN ' + estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec',
+                          [estudiante.usuario.email], fail_silently=False,
+                          html_message=html_part)
 
             return render(request, 'consulta3.html',
                           {'username': username, 'estudiante': estudiante, 'confirmacion': estadocurso,
@@ -249,7 +269,8 @@ def ver_lecciones(request):
     start_week = date - datetime.timedelta(date.weekday())
     end_week = start_week + datetime.timedelta(7)
     _lecciones = Curso.objects.filter(estudiantes=estudiante).filter(fecha__range=[start_week, end_week])
-    return render(request, 'ver-lecciones.html',{'username': username, 'estudiante': estudiante, 'lecciones': _lecciones})
+    return render(request, 'ver-lecciones.html',
+                  {'username': username, 'estudiante': estudiante, 'lecciones': _lecciones})
 
 
 @login_required(login_url='/')
@@ -383,7 +404,7 @@ def exportar_cursos_xls(fecha, sede):
         ws.write(row_num, 2, x.tipo_nivel, font_style)
         b = ""
         for a in x.estudiantes.prefetch_related('alumnos'):
-            a = a.usuario.get_full_name() + ' '+a.nivel.tema
+            a = a.usuario.get_full_name() + ' ' + a.nivel.tema
             b = b + ' ' + str(a) + '| '
             print(b)
         ws.write(row_num, 3, b, font_style)
