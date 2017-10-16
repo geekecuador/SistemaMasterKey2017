@@ -383,7 +383,7 @@ def exportar_cursos_xls(fecha, sede):
         ws.write(row_num, 2, x.tipo_nivel, font_style)
         b = ""
         for a in x.estudiantes.prefetch_related('alumnos'):
-            a = a.usuario.get_full_name() + a.nivel.tema
+            a = a.usuario.get_full_name() + ' '+a.nivel.tema
             b = b + ' ' + str(a) + '| '
             print(b)
         ws.write(row_num, 3, b, font_style)
