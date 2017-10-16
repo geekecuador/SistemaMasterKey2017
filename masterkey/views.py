@@ -137,7 +137,7 @@ def paso2(request):
             return redirect('/tablero/')
 
     else:
-        return redirect('/tablero/')
+        return redirect('/paso1/')
 
 
 @login_required(login_url='/')
@@ -191,7 +191,7 @@ def paso3(request):
         else:
             return redirect('/')
     elif request.method == 'GET':
-        return redirect('/tablero/')
+        return redirect('/paso1/')
 
 
 @login_required(login_url='/')
@@ -289,7 +289,7 @@ def talleres(request):
                               {'username': username, 'estudiante': estudiante, 'confirmacion': confirmacion})
 
     else:
-        redirect('/')
+        return redirect('/')
 
 
 # Exportacion en formato excel
