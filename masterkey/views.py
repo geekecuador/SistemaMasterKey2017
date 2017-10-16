@@ -166,7 +166,7 @@ def paso3(request):
                 academico.save()
                 estadocurso = True
                 ctx = {
-                    'usuario': estudiante.usuario.get_username(),
+                    'nombres': estudiante.usuario.get_full_name(),
 
                     'curso': _curso,
 
@@ -190,7 +190,7 @@ def paso3(request):
                                           fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
                 academico.save()
                 ctx = {
-                    'usuario': estudiante.usuario.get_username(),
+                    'nombres': estudiante.usuario.get_full_name(),
 
                     'curso': _curso,
 
