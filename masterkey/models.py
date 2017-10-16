@@ -87,7 +87,7 @@ class Estudiante(models.Model):
 
     def __str__(self):
         return str(self.usuario.get_full_name().encode(
-            'utf-8')) + " " + str(self.nivel.nivel) + " " + str(self.nivel.leccion) + " " + str(self.nivel.tema)
+            'utf-8')) + " | " + str(self.nivel.nivel) + " " + str(self.nivel.leccion) + " - " + str(self.nivel.tema)
 
 
 class Contrato(models.Model):
