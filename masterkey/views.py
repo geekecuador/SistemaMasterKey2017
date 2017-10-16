@@ -22,6 +22,7 @@ def login_view(request):
 
         try:
             estudiante = Estudiante.objects.get(usuario=username)
+
             return redirect('/tablero')
         except:
             return redirect('/admin')
@@ -91,7 +92,7 @@ def tablero(request):
             fecha__range=[datetime.datetime.now(), datetime.datetime.now() + datetime.timedelta(days=15)])
         return render(request, 'index.html', {'username': username, 'estudiante': estudiante, 'noticias': noticias})
     else:
-        redirect('/')
+        return redirect('/')
 
 
 @login_required(login_url='/')
@@ -100,7 +101,6 @@ def paso1(request):
     if request.user.is_authenticated():
         username = request.user
         estudiante = Estudiante.objects.get(usuario=username)
-        # academico = Academic_Rank.objects.filter(nivel_id=2).filter(estudiante=estudiante)
         academico = Academic_Rank.objects.filter(nivel_id=999).filter(estudiante=estudiante)
         dt = datetime.datetime.now()
         start = dt - datetime.timedelta(days=dt.weekday())
@@ -128,9 +128,6 @@ def paso2(request):
             date = datetime.date.today()
             start_week = date - datetime.timedelta(date.weekday())
             end_week = start_week + datetime.timedelta(7)
-            valor_limitacion = Limitaciones.objects.filter(fecha_reserva__range=[start_week, end_week]).filter(
-                estudiante=estudiante).count() < 3
-
             return render(request, 'consulta2.html',
                           {'username': username, 'estudiante': estudiante, 'cursos': cursos, 'fecha': fecha}, )
         else:
@@ -153,7 +150,6 @@ def paso3(request):
             _curso = Curso.objects.get(pk=request.POST.getlist('id')[0])
 
             if _curso.tipo_nivel == 'xx' and _curso.tipo_leccion == 0 and _curso.max_tipo == 3:
-                print("CURSO NUEVO")
                 _curso.tipo_nivel = estudiante.nivel.nivel
                 _curso.tipo_leccion = estudiante.nivel.leccion
                 _curso.estudiantes.add(estudiante)
@@ -172,7 +168,6 @@ def paso3(request):
 
             elif _curso.estudiantes.all().filter(
                     pk=estudiante.cedula).count() == 0 and _curso.tipo_estudiante.count() <= 3:
-                print("Curso reusado")
                 _curso.estudiantes.add(estudiante)
                 _curso.max_tipo = _curso.max_tipo - 1
                 _curso.capacidad_maxima = _curso.capacidad_maxima - 1
@@ -202,7 +197,7 @@ def registro(request):
         estudiante = Estudiante.objects.get(usuario=username)
         return render(request, 'registro.html', {'username': username, 'estudiante': estudiante})
     else:
-        redirect('/')
+        return redirect('/')
 
 
 @login_required(login_url='/')
