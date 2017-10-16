@@ -113,7 +113,7 @@ def paso1(request):
         else:
             return render(request, 'consulta1.html', {'username': username, 'estudiante': estudiante})
     else:
-        redirect('/')
+        return redirect('/')
 
 
 @login_required(login_url='/')
@@ -134,10 +134,10 @@ def paso2(request):
             return render(request, 'consulta2.html',
                           {'username': username, 'estudiante': estudiante, 'cursos': cursos, 'fecha': fecha}, )
         else:
-            return render(request, 'consulta1.html', {'username': username, 'estudiante': estudiante})
+            return redirect('/tablero/')
 
     else:
-        redirect('/tablero/')
+        return redirect('/tablero/')
 
 
 @login_required(login_url='/')
@@ -189,9 +189,9 @@ def paso3(request):
                           {'username': username, 'estudiante': estudiante, 'confirmacion': estadocurso,
                            'infoCurso': _curso})
         else:
-            redirect('/')
+            return redirect('/')
     elif request.method == 'GET':
-        redirect('/tablero/')
+        return redirect('/tablero/')
 
 
 @login_required(login_url='/')
@@ -215,7 +215,7 @@ def academic_rank(request):
         return render(request, 'academic_rank.html',
                       {'username': username, 'estudiante': estudiante, 'academic_rank': academic_rank})
     else:
-        redirect('/')
+        return redirect('/')
 
 
 @login_required(login_url='/')
@@ -227,7 +227,7 @@ def test(request):
         tests = Test.objects.filter(estudiante=estudiante)
         return render(request, 'test.html', {'username': username, 'estudiante': estudiante, 'tests': tests})
     else:
-        redirect('/')
+        return redirect('/')
 
 
 @login_required(login_url='/')
@@ -243,23 +243,18 @@ def ver_talleres(request):
         return render(request, 'ver-talleres.html',
                       {'username': username, 'estudiante': estudiante, 'talleres': _talleres})
     else:
-        redirect('/')
+        return redirect('/')
 
 
 @login_required(login_url='/')
 def ver_lecciones(request):
-    username = None
-    if request.user.is_authenticated():
-        username = request.user
-        estudiante = Estudiante.objects.get(usuario=username)
-        date = datetime.date.today()
-        start_week = date - datetime.timedelta(date.weekday())
-        end_week = start_week + datetime.timedelta(7)
-        _lecciones = Curso.objects.filter(estudiantes=estudiante).filter(fecha__range=[start_week, end_week])
-        return render(request, 'ver-lecciones.html',
-                      {'username': username, 'estudiante': estudiante, 'lecciones': _lecciones})
-    else:
-        redirect('/')
+    username = request.user
+    estudiante = Estudiante.objects.get(usuario=username)
+    date = datetime.date.today()
+    start_week = date - datetime.timedelta(date.weekday())
+    end_week = start_week + datetime.timedelta(7)
+    _lecciones = Curso.objects.filter(estudiantes=estudiante).filter(fecha__range=[start_week, end_week])
+    return render(request, 'ver-lecciones.html',{'username': username, 'estudiante': estudiante, 'lecciones': _lecciones})
 
 
 @login_required(login_url='/')
