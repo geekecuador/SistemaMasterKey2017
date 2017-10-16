@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
+from django.views.generic import TemplateView
 
 from cursos import obtener_cursos
 from models import Estudiante, Noticias, Taller, Test, Curso, Limitaciones, Ciudad, Estado, Sede, Nivel, Academic_Rank
@@ -136,7 +137,7 @@ def paso2(request):
             return render(request, 'consulta1.html', {'username': username, 'estudiante': estudiante})
 
     else:
-        return render(request, 'consulta1.html', {'username': username, 'estudiante': estudiante})
+        redirect('/tablero/')
 
 
 @login_required(login_url='/')
@@ -145,53 +146,52 @@ def paso3(request):
     global estadocurso
     estadocurso = False
 
-    if request.user.is_authenticated():
-        username = request.user
-        estudiante = Estudiante.objects.get(usuario=username)
-        _curso = Curso.objects.get(pk=request.POST.getlist('id')[0])
+    if request.method == 'POST':
+        if request.user.is_authenticated():
+            username = request.user
+            estudiante = Estudiante.objects.get(usuario=username)
+            _curso = Curso.objects.get(pk=request.POST.getlist('id')[0])
 
-        if _curso.tipo_nivel == 'xx' and _curso.tipo_leccion == 0 and _curso.max_tipo == 3:
-            print("CURSO NUEVO")
-            _curso.tipo_nivel = estudiante.nivel.nivel
-            _curso.tipo_leccion = estudiante.nivel.leccion
-            _curso.estudiantes.add(estudiante)
-            _curso.tipo_estudiante.add(estudiante.nivel)
-            _curso.capacidad_maxima = _curso.capacidad_maxima - 1
-            _curso.max_tipo = _curso.max_tipo - 1
-            _curso.save()
-            limitacion = Limitaciones(estudiante=estudiante, fecha_reserva=datetime.datetime.today())
-            limitacion.save()
-            # academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=2),
-            #                           fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
+            if _curso.tipo_nivel == 'xx' and _curso.tipo_leccion == 0 and _curso.max_tipo == 3:
+                print("CURSO NUEVO")
+                _curso.tipo_nivel = estudiante.nivel.nivel
+                _curso.tipo_leccion = estudiante.nivel.leccion
+                _curso.estudiantes.add(estudiante)
+                _curso.tipo_estudiante.add(estudiante.nivel)
+                _curso.capacidad_maxima = _curso.capacidad_maxima - 1
+                _curso.max_tipo = _curso.max_tipo - 1
+                _curso.save()
+                limitacion = Limitaciones(estudiante=estudiante, fecha_reserva=datetime.datetime.today())
+                limitacion.save()
 
-            academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
-                                      fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
-            academico.save()
-            estadocurso = True
+                academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
+                                          fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
+                academico.save()
+                estadocurso = True
 
 
-        elif _curso.estudiantes.all().filter(pk=estudiante.cedula).count() == 0 and _curso.tipo_estudiante.count() <= 3:
-            print("Curso reusado")
-            _curso.estudiantes.add(estudiante)
-            _curso.max_tipo = _curso.max_tipo - 1
-            _curso.capacidad_maxima = _curso.capacidad_maxima - 1
-            _curso.tipo_estudiante.add(estudiante.nivel)
-            _curso.save()
-            estadocurso = True
-            limitacion = Limitaciones(estudiante=estudiante, fecha_reserva=datetime.datetime.today())
-            limitacion.save()
-            # academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=2),
-            #                           fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
+            elif _curso.estudiantes.all().filter(
+                    pk=estudiante.cedula).count() == 0 and _curso.tipo_estudiante.count() <= 3:
+                print("Curso reusado")
+                _curso.estudiantes.add(estudiante)
+                _curso.max_tipo = _curso.max_tipo - 1
+                _curso.capacidad_maxima = _curso.capacidad_maxima - 1
+                _curso.tipo_estudiante.add(estudiante.nivel)
+                _curso.save()
+                estadocurso = True
+                limitacion = Limitaciones(estudiante=estudiante, fecha_reserva=datetime.datetime.today())
+                limitacion.save()
+                academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
+                                          fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
+                academico.save()
 
-            academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
-                                      fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
-            academico.save()
-
-        return render(request, 'consulta3.html',
-                      {'username': username, 'estudiante': estudiante, 'confirmacion': estadocurso,
-                       'infoCurso': _curso})
-    else:
-        redirect('/')
+            return render(request, 'consulta3.html',
+                          {'username': username, 'estudiante': estudiante, 'confirmacion': estadocurso,
+                           'infoCurso': _curso})
+        else:
+            redirect('/')
+    elif request.method == 'GET':
+        redirect('/tablero/')
 
 
 @login_required(login_url='/')
@@ -328,44 +328,6 @@ class ExportarHorarios(View):
         return exportar_cursos_xls(fecha, sede)
 
 
-# def exportar_estudiantes__activos_xls(request):
-#     response = HttpResponse(content_type='application/ms-excel')
-#     response['Content-Disposition'] = 'attachment; filename="users.xls"'
-#
-#     wb = xlwt.Workbook(encoding='utf-8')
-#     ws = wb.add_sheet('Estudiantes_Activos')
-#
-#     # Sheet header, first row
-#     row_num = 0
-#
-#     font_style = xlwt.XFStyle()
-#     font_style.font.bold = True
-#
-#     columns = ['Usuario', 'Nombre', 'Apellido', 'Email', 'Nivel', 'Lección', 'Contrato', 'Cédula', 'Inicio',
-#                'Termino', 'Fecha_Nacimiento', 'Teléfono', 'Observaciones']
-#
-#     for col_num in range(len(columns)):
-#         ws.write(row_num, col_num, columns[col_num], font_style)
-#
-#     # Sheet body, remaining rows
-#     font_style = xlwt.XFStyle()
-#     estudiantes_activos = Estudiante.objects.values_list('usuario__username', 'usuario__first_name',
-#                                                          'usuario__last_name', 'usuario__email',
-#                                                          'nivel__nivel', 'nivel__leccion', 'contrato',
-#                                                          'cedula', 'contrato__fecha_creacion', 'contrato__duracion',
-#                                                          'fecha_nacimiento', 'telefono', 'Estudiante__estado')
-#
-#     # .values_list('user', 'first_name', 'last_name', 'email')
-#     # rows = User.objects.values()
-#     for row in estudiantes_activos:
-#         row_num += 1
-#         for col_num in range(len(row)):
-#             ws.write(row_num, col_num, row[col_num], font_style)
-#
-#     wb.save(response)
-#     return response
-
-
 def exportar_estudiantes_xls(estado, ciudad):
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename="users.xls"'
@@ -385,7 +347,6 @@ def exportar_estudiantes_xls(estado, ciudad):
     for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num], font_style)
 
-    # Sheet body, remaining rows
     font_style = xlwt.XFStyle()
     estudiantes_activos = Estudiante.objects.values_list('usuario__username', 'usuario__first_name',
                                                          'usuario__last_name', 'usuario__email',
@@ -394,9 +355,6 @@ def exportar_estudiantes_xls(estado, ciudad):
                                                          'fecha_nacimiento', 'telefono',
                                                          'Estudiante__estado__seguimiento__comentario').filter(
         Estudiante__estado_id=estado).filter(ciudad_id=ciudad).distinct('usuario__email')
-
-    # .values_list('user', 'first_name', 'last_name', 'email')
-    # rows = User.objects.values()
     for row in estudiantes_activos:
         row_num += 1
         for col_num in range(len(row)):
@@ -406,50 +364,12 @@ def exportar_estudiantes_xls(estado, ciudad):
     return response
 
 
-# def exportar_cursos_xls(fecha, sede):
-#     response = HttpResponse(content_type='application/ms-excel')
-#     response['Content-Disposition'] = 'attachment; filename="users.xls"'
-#     wb = xlwt.Workbook(encoding='utf-8')
-#     ws = wb.add_sheet('Estudiantes_Activos')
-#
-#     # Sheet header, first row
-#     row_num = 0
-#     font_style = xlwt.XFStyle()
-#     font_style.font.bold = True
-#     columns = ['Hour', 'Teacher', 'Estudiante']
-#     for col_num in range(len(columns)):
-#         ws.write(row_num, col_num, columns[col_num], font_style)
-#
-#     # Sheet body, remaining rows
-#     font_style = xlwt.XFStyle()
-#     cursos = Curso.objects.all().filter(fecha=fecha).filter(sede_id=sede)
-#     cursoId = []
-#     for curso in cursos:
-#         print('Entrando al for de cursos')
-#         print(curso.id)
-#         cursoId.append(curso.id)
-#
-#     print(cursos)
-#     print("Longitud de :")
-#     print(len(cursoId))
-#     for numerodecursos in range(len(cursoId)):
-#         print('Imprimiendo rango de numeros')
-#         print(numerodecursos)
-#         row_num += 1
-#
-#         c = Curso.objects.all().filter(pk=cursoId.index(numerodecursos))
-#         ws.write(row_num, numerodecursos, c.get().profesor.nombre, font_style)
-#     wb.save(response)
-#     return response
-
-
-
 def exportar_cursos_xls(fecha, sede):
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename="horarios.xls"'
 
     wb = xlwt.Workbook(encoding='utf-8')
-    ws = wb.add_sheet('Horarios'+str(fecha))
+    ws = wb.add_sheet('Horarios' + str(fecha))
 
     # Sheet header, first row
     row_num = 0
@@ -464,40 +384,17 @@ def exportar_cursos_xls(fecha, sede):
 
     # Sheet body, remaining rows
     font_style = xlwt.XFStyle()
-    # cursosExportar = Estudiante.objects.values_list('usuario__username', 'usuario__first_name',
-    #                                                      'usuario__last_name', 'usuario__email',
-    #                                                      'nivel__nivel', 'nivel__leccion', 'contrato', 'cedula',
-    #                                                      'contrato__fecha_creacion', 'contrato__duracion',
-    #                                                      'fecha_nacimiento', 'telefono',
-    #                                                      'Estudiante__estado__seguimiento__comentario').filter(
-    #     Estudiante__estado_id=estado).filter(ciudad_id=ciudad).distinct('usuario__email')
-    cursosExportar = Curso.objects.filter(sede_id=sede).filter(fecha=fecha).prefetch_related('estudiantes').order_by('hora_inicio')
+    cursosExportar = Curso.objects.filter(sede_id=sede).filter(fecha=fecha).prefetch_related('estudiantes').order_by(
+        'hora_inicio')
     for x in cursosExportar:
-        print ('Imprimiendo')
-        print (x.hora_inicio)
-        print (x.profesor)
-        print (x.estudiantes)
         row_num += 1
         ws.write(row_num, 0, str(x.hora_inicio), font_style)
         ws.write(row_num, 1, x.profesor.nombre, font_style)
         ws.write(row_num, 2, x.tipo_nivel, font_style)
         b = ""
         for a in x.estudiantes.prefetch_related('alumnos'):
-
-            b = b+' '+str(a)+ '| '
+            b = b + ' ' + str(a) + '| '
             print(b)
         ws.write(row_num, 3, b, font_style)
-
-
-
-    # .values_list('user', 'first_name', 'last_name', 'email')
-    # rows = User.objects.values()
-    # for row in cursosExportar:
-    #     row_num += 1
-    #     for col_num in range(len(row)):
-    #         ws.write(row_num, col_num, row[col_num], font_style)
-
     wb.save(response)
     return response
-
-
