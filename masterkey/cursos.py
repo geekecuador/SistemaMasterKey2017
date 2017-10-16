@@ -589,7 +589,7 @@ def obtener_cursos(estudiante, fecha):
         tipo_leccion__in=range(estudiante.nivel.leccion - maximoArribaAbajo,
                                estudiante.nivel.leccion + maximoArribaAbajo)). \
         filter(tipo_nivel=estudiante.nivel.nivel).exclude(
-        tipo_nivel='xx').exclude(estudiantes=estudiante).filter(max_tipo__gte=1)
+        tipo_nivel='xx').exclude(estudiantes=estudiante).filter(max_tipo__gte=1).order_by('hora_inicio')
 
     cursos3 = Curso.objects.filter(sede__ciudad=estudiante.ciudad).filter(fecha=fecha).filter(
         capacidad_maxima__gt=0). \
@@ -598,11 +598,12 @@ def obtener_cursos(estudiante, fecha):
                                estudiante.nivel.leccion + maximoArribaAbajo)). \
         filter(tipo_nivel=estudiante.nivel.nivel).exclude(
         tipo_nivel='xx').exclude(estudiantes=estudiante).filter(max_tipo__lte=0).filter(
-        tipo_estudiante__in=[estudiante.nivel])
+        tipo_estudiante__in=[estudiante.nivel]).order_by('hora_inicio')
 
     cursos2 = Curso.objects.filter(fecha=fecha).filter(capacidad_maxima__gt=0). \
-        filter(tipo_nivel='xx').filter(sede__ciudad=estudiante.ciudad)
+        filter(tipo_nivel='xx').filter(sede__ciudad=estudiante.ciudad).order_by('hora_inicio')
     cursos = list(chain(cursos1, cursos2, cursos3))
+
     return cursos
 
 
