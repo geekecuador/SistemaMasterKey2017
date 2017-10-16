@@ -298,16 +298,20 @@ def send_user_email(sender, instance, **kwargs):
             'nombres': estudiante.usuario.get_full_name(),
 
         }
-        if(estudiante.ciudad.nombre =='Esmeraldas'):
+        if estudiante.ciudad.nombre == 'Esmeraldas':
             html_part = render_to_string('email/bienvenidaEsmeraldas.html', ctx)
-            send_mail('BIENVENIDA '+estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec', [estudiante.usuario.email], fail_silently=False,
+            send_mail('BIENVENIDA ' + estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec',
+                      [estudiante.usuario.email], fail_silently=False,
                       html_message=html_part)
-        elif(estudiante.ciudad.nombre =='Santo Domingo'):
+        elif estudiante.ciudad.nombre == 'Santo Domingo':
             html_part = render_to_string('email/bienvenidaSantoDomingo.html', ctx)
-            send_mail('BIENVENIDA '+estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec', [estudiante.usuario.email], fail_silently=False,
+            send_mail('BIENVENIDA ' + estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec',
+                      [estudiante.usuario.email], fail_silently=False,
                       html_message=html_part)
 
+
 post_save.connect(send_user_email, sender=Estudiante)
+
 
 def activateUser(sender, instance, **kwargs):
     if kwargs['created']:
@@ -316,5 +320,6 @@ def activateUser(sender, instance, **kwargs):
         usuario = estudiante.usuario
         usuario.is_active = True
         usuario.save()
+
 
 post_save.connect(activateUser, sender=Test)
