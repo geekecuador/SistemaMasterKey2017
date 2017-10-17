@@ -106,5 +106,23 @@
         <script src="{% static "assets/js/jquery.core.js"%}"></script>
         <script src="{% static "assets/js/jquery.app.js"%}"></script>
 	    <script src="https://use.fontawesome.com/b1ac3021bd.js"></script>
+
+
+         <script src="{% static "assets/plugins/moment/moment.js"%}"></script>
+     	<script src="{% static "assets/plugins/timepicker/bootstrap-timepicker.min.js"%}"></script>
+
+     	<script src="{% static "assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"%}"></script>
+     	<script src="{% static "assets/plugins/bootstrap-daterangepicker/daterangepicker.js"%}"></script>
+     <script>
+        var dateToday = new Date();
+        dateToday.setDate(dateToday.getDate() + 1);
+        jQuery('#datepicker-autoclose').datepicker({
+            autoclose: true,
+            todayHighlight: true,
+            'startDate': dateToday,
+
+        });
+
+    </script>
 	</body>
 </html>
