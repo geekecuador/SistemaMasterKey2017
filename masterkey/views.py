@@ -461,7 +461,8 @@ def exportar_talleres_xls(fecha, sede):
         ws.write(row_num, 2, x.nivel, font_style)
         b = ""
         for a in x.estudiantes.prefetch_related('alumnos'):
-            a = a.usuario.get_full_name() + ' '
+
+            a = a.usuario.get_full_name() + ' ' + str(a.nivel.pk)
             b = b + ' ' + str(a) + '| '
             print(b)
         ws.write(row_num, 3, b, font_style)
