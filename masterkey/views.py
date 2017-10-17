@@ -11,11 +11,16 @@ from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.contrib.admin.views.decorators import staff_member_required
 from cursos import obtener_cursos
 from models import Estudiante, Noticias, Taller, Test, Curso, Limitaciones, Ciudad, Estado, Sede, Nivel, Academic_Rank
 
+class StaffRequiredMixin(object):
+    @method_decorator(staff_member_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(StaffRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 def login_view(request):
     if request.user.is_authenticated():
@@ -324,7 +329,7 @@ class ExportarEstudiantes(View):
         return exportar_estudiantes_xls(request.POST['estados'], request.POST['ciudades'])
 
 
-class ExportarHorarios(View):
+class ExportarHorarios(StaffRequiredMixin, View):
     template_name = 'reportes/horarios.html'
 
 
@@ -342,7 +347,7 @@ class ExportarHorarios(View):
         fecha = datetime.datetime.strptime(fecha, '%m/%d/%Y').date()
         return exportar_cursos_xls(fecha, sede)
 
-class ExportarTalleres(View):
+class ExportarTalleres(StaffRequiredMixin, View):
     template_name = 'reportes/horarios.html'
 
 
@@ -484,3 +489,11 @@ def reservaciones(request):
 
     elif request.method == 'GET':
         return render(request, 'reservaciones/index.html', {})
+
+
+
+
+
+
+
+
