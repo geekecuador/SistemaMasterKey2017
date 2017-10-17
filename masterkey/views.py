@@ -313,13 +313,13 @@ def talleres(request):
 class ExportarEstudiantes(View):
     template_name = 'reportes/estudiantes.html'
 
-    
+
     def get(self, request, *args, **kwargs):
         ciudad = Ciudad.objects.all()
         seguimiento = Estado.objects.all()
         return render(request, self.template_name, {'ciudad': ciudad, 'seguimiento': seguimiento})
 
-    @staff_member_required()
+
     def post(self, request, *args, **kwargs):
         return exportar_estudiantes_xls(request.POST['estados'], request.POST['ciudades'])
 
@@ -332,7 +332,7 @@ class ExportarHorarios(View):
         ciudad = Sede.objects.all()
         return render(request, self.template_name, {'ciudad': ciudad, })
 
-    @staff_member_required()
+
     def post(self, request, *args, **kwargs):
         fecha = request.POST['fecha']
         sede = request.POST['sede']
@@ -350,7 +350,7 @@ class ExportarTalleres(View):
         ciudad = Sede.objects.all()
         return render(request, self.template_name, {'ciudad': ciudad, })
 
-    @staff_member_required()
+    
     def post(self, request, *args, **kwargs):
         fecha = request.POST['fecha']
         sede = request.POST['sede']
