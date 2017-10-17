@@ -50,11 +50,16 @@
                 <div class="panel-body">
                     <form class="form-horizontal m-t-20" method="POST" action="/">
                         {% csrf_token %}
+
                         <div class="form-group ">
                             <div class="col-xs-12">
                                 <input class="form-control" type="text" required="" placeholder="usuario" name="username">
+                                <input type="text" class="form-control" id="datepicker-autoclose"
+                                               placeholder="mm/dd/yyyy" name="fecha_leccion">
                             </div>
                         </div>
+
+
 
 
 
@@ -72,24 +77,10 @@
             </div>
             <!-- end card-box-->
 
-            <div class="row">
-                <div class="col-sm-12 text-center">
-                    <p class="text-muted">Teléfonos: 099 143 8750</p>
-                </div>
-            </div>
+
             
         </div>
-        {% if error %}
-            <script>
-                            swal({
-                  title: "Advertencia!",
-                  text: "Error en el usuario/contraseña o debe completar con la prueba de su respectiva unidad!",
-                  type: "warning",
-                  confirmButtonText: "Aceptar"
-                });
-            </script>
-        {% else %}
-        {% endif %}
+
         <!-- end wrapper page -->
         
 

@@ -478,4 +478,9 @@ def my_custom_page_not_found_view(request):
 
 @staff_member_required()
 def reservaciones(request):
-    return render(request, 'reservaciones/index.html', {})
+    if request.method == 'POST':
+        username = request.method.get("username","")
+        estudiante = Estudiante.objects.get(usuario=username)
+
+    elif request.method == 'GET':
+        return render(request, 'reservaciones/index.html', {})
