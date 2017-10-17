@@ -444,20 +444,21 @@ def exportar_talleres_xls(fecha, sede):
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
 
-    columns = ['Hora', 'Teacher', 'Book', 'Student']
+    columns = ['Hora', 'Teacher', 'Book', 'Students']
 
     for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num], font_style)
 
     # Sheet body, remaining rows
     font_style = xlwt.XFStyle()
-    cursosExportar = Curso.objects.filter(sede_id=sede).filter(fecha=fecha).prefetch_related('estudiantes').order_by(
+    talleresExportar = Taller.objects.filter(sede_id=sede).filter(fecha=fecha).prefetch_related('estudiantes').order_by(
         'hora_inicio')
-    for x in cursosExportar:
+
+    for x in talleresExportar:
         row_num += 1
         ws.write(row_num, 0, str(x.hora_inicio), font_style)
         ws.write(row_num, 1, x.profesor.nombre, font_style)
-        ws.write(row_num, 2, x.tipo_nivel, font_style)
+        ws.write(row_num, 2, x.nivel, font_style)
         b = ""
         for a in x.estudiantes.prefetch_related('alumnos'):
             a = a.usuario.get_full_name() + ' ' + a.nivel.tema
