@@ -12,7 +12,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.views import View
-
+from django.contrib.admin.views.decorators import staff_member_required
 from cursos import obtener_cursos
 from models import Estudiante, Noticias, Taller, Test, Curso, Limitaciones, Ciudad, Estado, Sede, Nivel, Academic_Rank
 
@@ -354,10 +354,6 @@ class ExportarTalleres(View):
         fecha = datetime.datetime.strptime(fecha, '%m/%d/%Y').date()
         return exportar_talleres_xls(fecha, sede)
 
-
-
-
-
 def exportar_estudiantes_xls(estado, ciudad):
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename="users.xls"'
@@ -472,3 +468,8 @@ def exportar_talleres_xls(fecha, sede):
 
 def my_custom_page_not_found_view(request):
     return render(request, 'error/error404.html', {})
+
+
+@staff_member_required()
+def reservaciones(request):
+    return render(request, 'page-login.html', {})

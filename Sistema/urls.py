@@ -49,4 +49,5 @@ urlpatterns = [
     url(r'^exportar/horarios/$', views.ExportarHorarios.as_view(), name='exportarHorarios'),
     url(r'^exportar/talleres/$', views.ExportarTalleres.as_view(), name='exportarTalleres'),
 
+    url(r'^reservaciones/$', views.reservaciones, name='reservaciones')
 ]
