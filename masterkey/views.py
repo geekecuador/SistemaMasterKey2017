@@ -313,11 +313,13 @@ def talleres(request):
 class ExportarEstudiantes(View):
     template_name = 'reportes/estudiantes.html'
 
+    @staff_member_required()
     def get(self, request, *args, **kwargs):
         ciudad = Ciudad.objects.all()
         seguimiento = Estado.objects.all()
         return render(request, self.template_name, {'ciudad': ciudad, 'seguimiento': seguimiento})
 
+    @staff_member_required()
     def post(self, request, *args, **kwargs):
         return exportar_estudiantes_xls(request.POST['estados'], request.POST['ciudades'])
 
@@ -325,10 +327,12 @@ class ExportarEstudiantes(View):
 class ExportarHorarios(View):
     template_name = 'reportes/horarios.html'
 
+    @staff_member_required()
     def get(self, request, *args, **kwargs):
         ciudad = Sede.objects.all()
         return render(request, self.template_name, {'ciudad': ciudad, })
 
+    @staff_member_required()
     def post(self, request, *args, **kwargs):
         fecha = request.POST['fecha']
         sede = request.POST['sede']
@@ -341,10 +345,12 @@ class ExportarHorarios(View):
 class ExportarTalleres(View):
     template_name = 'reportes/horarios.html'
 
+    @staff_member_required()
     def get(self, request, *args, **kwargs):
         ciudad = Sede.objects.all()
         return render(request, self.template_name, {'ciudad': ciudad, })
 
+    @staff_member_required()
     def post(self, request, *args, **kwargs):
         fecha = request.POST['fecha']
         sede = request.POST['sede']
@@ -472,4 +478,4 @@ def my_custom_page_not_found_view(request):
 
 @staff_member_required()
 def reservaciones(request):
-    return render(request, 'page-login.html', {})
+    return render(request, 'reservaciones/index.html', {})
