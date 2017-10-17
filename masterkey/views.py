@@ -25,7 +25,7 @@ def login_view(request):
             estudiante = Estudiante.objects.get(usuario=username)
 
             return redirect('/tablero')
-        except:
+        except Exception:
             return redirect('/admin')
 
     else:
