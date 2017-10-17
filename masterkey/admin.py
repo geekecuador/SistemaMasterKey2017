@@ -88,9 +88,9 @@ class ProfesorAdmin(admin.ModelAdmin):
 
 @admin.register(models.Taller)
 class TallerAdmin(admin.ModelAdmin):
-    list_display = ('tema', 'fecha', 'hora_inicio', 'hora_fin', 'capacidad', 'profesor', 'lugar', 'nivel',)
+    list_display = ('tema', 'fecha', 'hora_inicio', 'hora_fin', 'capacidad', 'profesor', 'sede', 'nivel',)
     filter_horizontal = ('estudiantes',)
-    list_filter = ('lugar',)
+    list_filter = ('sede',)
     list_per_page = 50
 
 
