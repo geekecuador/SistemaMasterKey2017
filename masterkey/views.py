@@ -484,9 +484,15 @@ def my_custom_page_not_found_view(request):
 @staff_member_required()
 def reservaciones(request):
     if request.method == 'POST':
-        username = request.method.get("username","")
-        estudiante = Estudiante.objects.get(usuario=username)
-
+        username = request.POST['username']
+        print (username)
+        estudiante = Estudiante.objects.get(usuario__username=username)
+        print (estudiante)
+        fecha = request.POST['fecha_leccion']
+        fecha = datetime.datetime.strptime(fecha, "%m/%d/%Y").strftime("%Y-%m-%d")
+        cursos = obtener_cursos(estudiante, fecha)
+        print (cursos)
+        return render(request, 'reservaciones/index.html', {})
     elif request.method == 'GET':
         return render(request, 'reservaciones/index.html', {})
 
