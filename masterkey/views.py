@@ -313,7 +313,7 @@ def talleres(request):
 class ExportarEstudiantes(View):
     template_name = 'reportes/estudiantes.html'
 
-    @staff_member_required()
+    
     def get(self, request, *args, **kwargs):
         ciudad = Ciudad.objects.all()
         seguimiento = Estado.objects.all()
@@ -327,7 +327,7 @@ class ExportarEstudiantes(View):
 class ExportarHorarios(View):
     template_name = 'reportes/horarios.html'
 
-    @staff_member_required()
+
     def get(self, request, *args, **kwargs):
         ciudad = Sede.objects.all()
         return render(request, self.template_name, {'ciudad': ciudad, })
@@ -345,7 +345,7 @@ class ExportarHorarios(View):
 class ExportarTalleres(View):
     template_name = 'reportes/horarios.html'
 
-    @staff_member_required()
+
     def get(self, request, *args, **kwargs):
         ciudad = Sede.objects.all()
         return render(request, self.template_name, {'ciudad': ciudad, })
