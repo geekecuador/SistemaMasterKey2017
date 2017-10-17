@@ -467,3 +467,7 @@ def exportar_talleres_xls(fecha, sede):
         ws.write(row_num, 3, b, font_style)
     wb.save(response)
     return response
+
+
+def my_custom_page_not_found_view(request):
+    return render(request, 'error/error404.html', {})

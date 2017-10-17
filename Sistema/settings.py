@@ -17,7 +17,6 @@ from os import path
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -25,10 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '5e$h63k=a&wtt0+e2$9&!6j^lln*lw+ili)%o4=fu7x#-9q@*3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['104.131.71.37', 'horarios.masterkey.com.ec']
-
 
 # Application definition
 
@@ -46,9 +44,9 @@ INSTALLED_APPS = [
     'storages',
     'widget_tweaks',
     'daterange_filter',
-    'rest_framework',
-    'sslserver',
-    'django_user_agents',
+    # 'rest_framework',
+    # 'sslserver',
+    # 'django_user_agents',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_user_agents.middleware.UserAgentMiddleware',
+    # 'django_user_agents.middleware.UserAgentMiddleware',
 ]
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -87,7 +85,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Sistema.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
@@ -127,7 +124,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -140,7 +136,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
@@ -167,7 +162,7 @@ STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 DEFAULT_FILE_STORAGE = 'Sistema.storage_backends.MediaStorage'
 
-#EMAIL
+# EMAIL
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 

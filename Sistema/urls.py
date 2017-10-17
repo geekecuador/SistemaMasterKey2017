@@ -21,6 +21,7 @@ from material.frontend import urls as frontend_urls
 from rest_framework import serializers, viewsets, routers
 
 from masterkey import views
+handler404 = 'masterkey.views.my_custom_page_not_found_view'
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
