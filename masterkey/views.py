@@ -338,6 +338,25 @@ class ExportarHorarios(View):
         fecha = datetime.datetime.strptime(fecha, '%m/%d/%Y').date()
         return exportar_cursos_xls(fecha, sede)
 
+class ExportarTalleres(View):
+    template_name = 'reportes/horarios.html'
+
+    def get(self, request, *args, **kwargs):
+        ciudad = Sede.objects.all()
+        return render(request, self.template_name, {'ciudad': ciudad, })
+
+    def post(self, request, *args, **kwargs):
+        fecha = request.POST['fecha']
+        sede = request.POST['sede']
+        print(sede)
+        # sede  = Sede.objects.get(pk=sede)
+        # print(sede)
+        fecha = datetime.datetime.strptime(fecha, '%m/%d/%Y').date()
+        return exportar_talleres_xls(fecha, sede)
+
+
+
+
 
 def exportar_estudiantes_xls(estado, ciudad):
     response = HttpResponse(content_type='application/ms-excel')
@@ -381,6 +400,43 @@ def exportar_cursos_xls(fecha, sede):
 
     wb = xlwt.Workbook(encoding='utf-8')
     ws = wb.add_sheet('Horarios' + str(fecha))
+
+    # Sheet header, first row
+    row_num = 0
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    columns = ['Hora', 'Teacher', 'Book', 'Student']
+
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style)
+
+    # Sheet body, remaining rows
+    font_style = xlwt.XFStyle()
+    cursosExportar = Curso.objects.filter(sede_id=sede).filter(fecha=fecha).prefetch_related('estudiantes').order_by(
+        'hora_inicio')
+    for x in cursosExportar:
+        row_num += 1
+        ws.write(row_num, 0, str(x.hora_inicio), font_style)
+        ws.write(row_num, 1, x.profesor.nombre, font_style)
+        ws.write(row_num, 2, x.tipo_nivel, font_style)
+        b = ""
+        for a in x.estudiantes.prefetch_related('alumnos'):
+            a = a.usuario.get_full_name() + ' ' + a.nivel.tema
+            b = b + ' ' + str(a) + '| '
+            print(b)
+        ws.write(row_num, 3, b, font_style)
+    wb.save(response)
+    return response
+
+
+def exportar_talleres_xls(fecha, sede):
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="talleres.xls"'
+
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Talleres ' + str(fecha))
 
     # Sheet header, first row
     row_num = 0

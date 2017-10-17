@@ -159,7 +159,7 @@ class Taller(models.Model):
     hora_fin = models.TimeField()
     capacidad = models.IntegerField()
     profesor = models.ForeignKey(Profesor)
-    lugar = models.ForeignKey(Ciudad)
+    sede = models.ForeignKey(Sede)
     nivel = models.CharField(max_length=12)
     estudiantes = models.ManyToManyField(Estudiante, related_name='alumnos', blank=True)
 
