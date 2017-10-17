@@ -282,7 +282,7 @@ def talleres(request):
             estudiante = Estudiante.objects.get(usuario=username)
             talleres = Taller.objects.filter(nivel__icontains=estudiante.nivel.nivel).filter(
                 fecha__range=[datetime.datetime.now(), datetime.datetime.now() + datetime.timedelta(days=15)]).filter(
-                capacidad__gt=0).filter(lugar=estudiante.ciudad).exclude(estudiantes=estudiante)
+                capacidad__gt=0).filter(sede__ciudad=estudiante.ciudad).exclude(estudiantes=estudiante)
             return render(request, 'talleres.html',
                           {'username': username, 'estudiante': estudiante, 'talleres': talleres})
         elif request.method == 'POST':
