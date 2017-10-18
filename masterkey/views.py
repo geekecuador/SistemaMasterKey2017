@@ -558,8 +558,6 @@ def reservacionesFinal(request):
         return render(request, 'reservaciones/final.html',
                       {'username': username, 'estudiante': estudiante, 'confirmacion': estadocurso,
                        'infoCurso': _curso})
-    else:
-        return redirect('/')
 
 
 
