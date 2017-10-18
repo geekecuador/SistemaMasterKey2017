@@ -3,26 +3,29 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import datetime
+import json
 
 import xlwt
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, logout, login
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.mail import send_mail
-import json
-from django.http import HttpResponse, HttpResponseForbidden
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.contrib.admin.views.decorators import staff_member_required
+
 from cursos import obtener_cursos
 from models import Estudiante, Noticias, Taller, Test, Curso, Limitaciones, Ciudad, Estado, Sede, Nivel, Academic_Rank
+
 
 class StaffRequiredMixin(object):
     @method_decorator(staff_member_required)
     def dispatch(self, request, *args, **kwargs):
         return super(StaffRequiredMixin, self).dispatch(request, *args, **kwargs)
+
 
 def login_view(request):
     if request.user.is_authenticated():
@@ -320,12 +323,10 @@ def talleres(request):
 class ExportarEstudiantes(View):
     template_name = 'reportes/estudiantes.html'
 
-
     def get(self, request, *args, **kwargs):
         ciudad = Ciudad.objects.all()
         seguimiento = Estado.objects.all()
         return render(request, self.template_name, {'ciudad': ciudad, 'seguimiento': seguimiento})
-
 
     def post(self, request, *args, **kwargs):
         return exportar_estudiantes_xls(request.POST['estados'], request.POST['ciudades'])
@@ -334,11 +335,9 @@ class ExportarEstudiantes(View):
 class ExportarHorarios(StaffRequiredMixin, View):
     template_name = 'reportes/horarios.html'
 
-
     def get(self, request, *args, **kwargs):
         ciudad = Sede.objects.all()
         return render(request, self.template_name, {'ciudad': ciudad, })
-
 
     def post(self, request, *args, **kwargs):
         fecha = request.POST['fecha']
@@ -349,15 +348,14 @@ class ExportarHorarios(StaffRequiredMixin, View):
         fecha = datetime.datetime.strptime(fecha, '%m/%d/%Y').date()
         return exportar_cursos_xls(fecha, sede)
 
+
 class ExportarTalleres(StaffRequiredMixin, View):
     template_name = 'reportes/horarios.html'
-
 
     def get(self, request, *args, **kwargs):
         ciudad = Sede.objects.all()
         return render(request, self.template_name, {'ciudad': ciudad, })
 
-    
     def post(self, request, *args, **kwargs):
         fecha = request.POST['fecha']
         sede = request.POST['sede']
@@ -366,6 +364,7 @@ class ExportarTalleres(StaffRequiredMixin, View):
         # print(sede)
         fecha = datetime.datetime.strptime(fecha, '%m/%d/%Y').date()
         return exportar_talleres_xls(fecha, sede)
+
 
 def exportar_estudiantes_xls(estado, ciudad):
     response = HttpResponse(content_type='application/ms-excel')
@@ -470,7 +469,6 @@ def exportar_talleres_xls(fecha, sede):
         ws.write(row_num, 2, x.nivel, font_style)
         b = ""
         for a in x.estudiantes.prefetch_related('alumnos'):
-
             a = a.usuario.get_full_name() + ' ' + str(a.nivel.pk)
             b = b + ' ' + str(a) + '| '
             print(b)
@@ -487,16 +485,18 @@ def my_custom_page_not_found_view(request):
 def reservaciones(request):
     if request.method == 'POST':
         username = request.POST['username']
-        print (username)
+        print(username)
         estudiante = Estudiante.objects.get(usuario__username=username)
-        print (estudiante)
+        print(estudiante)
         fecha = request.POST['fecha_leccion']
         fecha = datetime.datetime.strptime(fecha, "%m/%d/%Y").strftime("%Y-%m-%d")
         cursos = obtener_cursos(estudiante, fecha)
-        print (cursos)
-        return render(request, 'reservaciones/resultados.html', {'cursos': cursos, 'fecha': fecha,'estudiante':estudiante})
+        print(cursos)
+        return render(request, 'reservaciones/resultados.html',
+                      {'cursos': cursos, 'fecha': fecha, 'estudiante': estudiante})
     elif request.method == 'GET':
         return render(request, 'reservaciones/index.html', {})
+
 
 @staff_member_required()
 def reservacionesFinal(request):
@@ -560,16 +560,12 @@ def reservacionesFinal(request):
                        'infoCurso': _curso})
 
 
-
-
-
-
 def search(request):
     if request.is_ajax():
         q = request.GET['term']
         print(q)
         drugs = User.objects.filter(username__istartswith=q)
-        print (drugs)
+        print(drugs)
         results = []
 
         for drug in drugs:
