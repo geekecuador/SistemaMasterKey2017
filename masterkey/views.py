@@ -6,9 +6,11 @@ import datetime
 
 import xlwt
 from django.contrib.auth import authenticate, logout, login
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
-from django.http import HttpResponse
+import json
+from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
@@ -492,14 +494,93 @@ def reservaciones(request):
         fecha = datetime.datetime.strptime(fecha, "%m/%d/%Y").strftime("%Y-%m-%d")
         cursos = obtener_cursos(estudiante, fecha)
         print (cursos)
-        return render(request, 'reservaciones/index.html', {})
+        return render(request, 'reservaciones/resultados.html', {'cursos': cursos, 'fecha': fecha,'estudiante':estudiante})
     elif request.method == 'GET':
         return render(request, 'reservaciones/index.html', {})
 
+@staff_member_required()
+def reservacionesFinal(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        estudiante = Estudiante.objects.get(usuario__username__exact=username)
+        _curso = Curso.objects.get(pk=request.POST.getlist('id')[0])
+
+        if _curso.tipo_nivel == 'xx' and _curso.tipo_leccion == 0 and _curso.max_tipo == 3:
+            _curso.tipo_nivel = estudiante.nivel.nivel
+            _curso.tipo_leccion = estudiante.nivel.leccion
+            _curso.estudiantes.add(estudiante)
+            _curso.tipo_estudiante.add(estudiante.nivel)
+            _curso.capacidad_maxima = _curso.capacidad_maxima - 1
+            _curso.max_tipo = _curso.max_tipo - 1
+            _curso.save()
+            limitacion = Limitaciones(estudiante=estudiante, fecha_reserva=datetime.datetime.today())
+            limitacion.save()
+
+            academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
+                                      fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
+            academico.save()
+            estadocurso = True
+            ctx = {
+                'nombres': estudiante.usuario.get_full_name(),
+
+                'curso': _curso,
+
+            }
+            html_part = render_to_string('email/reservacion.html', ctx)
+            send_mail('RESERVACIÓN ' + estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec',
+                      [estudiante.usuario.email], fail_silently=False,
+                      html_message=html_part)
+
+        elif _curso.estudiantes.all().filter(
+                pk=estudiante.cedula).count() == 0 and _curso.tipo_estudiante.count() <= 3:
+            _curso.estudiantes.add(estudiante)
+            _curso.max_tipo = _curso.max_tipo - 1
+            _curso.capacidad_maxima = _curso.capacidad_maxima - 1
+            _curso.tipo_estudiante.add(estudiante.nivel)
+            _curso.save()
+            estadocurso = True
+            limitacion = Limitaciones(estudiante=estudiante, fecha_reserva=datetime.datetime.today())
+            limitacion.save()
+            academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
+                                      fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
+            academico.save()
+            ctx = {
+                'nombres': estudiante.usuario.get_full_name(),
+
+                'curso': _curso,
+
+            }
+            html_part = render_to_string('email/reservacion.html', ctx)
+            send_mail('RESERVACIÓN ' + estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec',
+                      [estudiante.usuario.email], fail_silently=False,
+                      html_message=html_part)
+
+        return render(request, 'reservaciones/final.html',
+                      {'username': username, 'estudiante': estudiante, 'confirmacion': estadocurso,
+                       'infoCurso': _curso})
+    else:
+        return redirect('/')
 
 
 
 
 
 
+def search(request):
+    if request.is_ajax():
+        q = request.GET['term']
+        print(q)
+        drugs = User.objects.filter(username__istartswith=q)
+        print (drugs)
+        results = []
 
+        for drug in drugs:
+            drug_json = {}
+            drug_json = drug.username
+            print(drug.username)
+            results.append(drug_json)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
