@@ -18,7 +18,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from cursos import obtener_cursos
-from models import Estudiante, Noticias, Taller, Test, Curso, Limitaciones, Ciudad, Estado, Sede, Nivel, Academic_Rank
+from models import Estudiante, Noticias, Taller, Test, Curso, Limitaciones, Ciudad, Estado, Sede, Nivel, Academic_Rank, TallerRank
 
 
 class StaffRequiredMixin(object):
@@ -244,10 +244,11 @@ def academic_rank(request):
 
 
 @login_required(login_url='/')
-def talleres_rank(request):
-    username  = request.user
+def talleresRank(request):
+    username = request.user
     estudiante = Estudiante.objects.get(usuario=username)
-    # talleres_rank = Tal
+    talleresRank = TallerRank.objects.filter(estudiante=estudiante)
+    return render(request, 'tallerRank.html', {'username': username, 'estudiante': estudiante, 'talleresRank': talleresRank})
 
 @login_required(login_url='/')
 def test(request):

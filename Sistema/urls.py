@@ -40,6 +40,7 @@ urlpatterns = [
     url(r'^paso3/', views.paso3, name='paso3'),
     url(r'^registro/', views.registro, name='registro'),
     url(r'^academic-rank/', views.academic_rank, name='academic_rank'),
+    url(r'^academic-taller/', views.talleresRank, name='talleresRank'),
     url(r'^talleres/', views.talleres, name='talleres'),
     url(r'^test/', views.test, name='test'),
     url(r'^ver-talleres/', views.ver_talleres, name='ver-talleres'),
