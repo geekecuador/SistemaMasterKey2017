@@ -34,6 +34,10 @@ class Academic_RankInline(admin.TabularInline):
     search_fields = ('nivel', 'leccion',)
     raw_id_fields = ('nivel','curso')
 
+class TalleresRankInline(admin.TabularInline):
+    model = models.TallerRank
+    fk_name = "estudiante"
+    extra = 1
 
 class SeguimientoInline(admin.TabularInline):
     model = models.Seguimiento
@@ -48,7 +52,7 @@ class EstudianteAdmin(admin.ModelAdmin):
     list_editable = ('nivel',)
     search_fields = ('cedula','usuario__first_name', 'usuario__last_name', 'usuario__email')
     raw_id_fields = ('usuario', 'nivel')
-    inlines = [Academic_RankInline, SeguimientoInline,TestInLine]
+    inlines = [Academic_RankInline, SeguimientoInline,TestInLine,TalleresRankInline]
     list_per_page = 50
 
     def get_first_name(self, obj):

@@ -311,6 +311,9 @@ def talleres(request):
                 taller.estudiantes.add(estudiante)
                 taller.capacidad = taller.capacidad - 1
                 taller.save()
+                _talleresRank = TallerRank(estudiante=estudiante, taller=taller,nota="",asistencia=False)
+                _talleresRank.save()
+
                 confirmacion = True
                 return render(request, 'confirmacion-talleres.html',
                               {'username': username, 'estudiante': estudiante, 'taller': taller,
