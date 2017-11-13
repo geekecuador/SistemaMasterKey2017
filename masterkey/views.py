@@ -558,6 +558,7 @@ def reservacionesFinal(request):
             send_mail('RESERVACIÓN ' + estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec',
                       [estudiante.usuario.email], fail_silently=False,
                       html_message=html_part)
+            return render(request, 'reservaciones/final.html', {'username': username, 'estudiante': estudiante, 'confirmacion': estadocurso,'infoCurso': _curso}) 
 
         elif _curso.estudiantes.all().filter(
                 pk=estudiante.cedula).count() == 0 and _curso.tipo_estudiante.count() <= 3:
@@ -583,10 +584,8 @@ def reservacionesFinal(request):
             send_mail('RESERVACIÓN ' + estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec',
                       [estudiante.usuario.email], fail_silently=False,
                       html_message=html_part)
-
-        return render(request, 'reservaciones/final.html',
-                      {'username': username, 'estudiante': estudiante, 'confirmacion': estadocurso,
-                       'infoCurso': _curso})
+            return render(request, 'reservaciones/final.html', {'username': username, 'estudiante': estudiante, 'confirmacion': estadocurso,'infoCurso': _curso})
+        return render(request, 'reservaciones/final.html', {'username': username, 'estudiante': estudiante, 'error':'Existe un error, vuelva a intentar'})
 
 
 def search(request):
