@@ -228,6 +228,17 @@ class Academic_Rank(models.Model):
     def __str__(self):
         return self.estudiante.cedula
 
+class TallerRank(models.Model):
+    estudiante = models.ForeignKey(Estudiante)
+    taller = models.ForeignKey(Taller)
+    nota = models.CharField(max_length=35, blank=True)
+    asistencia = models.BooleanField(blank=True)
+    class Meta:
+        verbose_name = 'rank talleres'
+        verbose_name_plural = 'ranks de talleres'
+    def __str__(self):
+        return self.estudiante.usuario.get_full_name() + " "+self.taller.tema
+
 
 class Limitaciones(models.Model):
     estudiante = models.ForeignKey(Estudiante)

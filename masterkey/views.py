@@ -244,6 +244,12 @@ def academic_rank(request):
 
 
 @login_required(login_url='/')
+def talleres_rank(request):
+    username  = request.user
+    estudiante = Estudiante.objects.get(usuario=username)
+    # talleres_rank = Tal
+
+@login_required(login_url='/')
 def test(request):
     username = None
     if request.user.is_authenticated():
