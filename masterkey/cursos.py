@@ -610,7 +610,8 @@ def obtener_cursos(estudiante, fecha):
 
         return cursos
     else:
-        return None
+        cursos = list()
+        return cursos
 
     #Curso para la sede.
 

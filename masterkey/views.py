@@ -563,15 +563,11 @@ def reservacionesFinal(request):
 def search(request):
     if request.is_ajax():
         q = request.GET['term']
-        print(q)
         drugs = User.objects.filter(username__istartswith=q)
-        print(drugs)
         results = []
-
         for drug in drugs:
             drug_json = {}
             drug_json = drug.username
-            print(drug.username)
             results.append(drug_json)
         data = json.dumps(results)
     else:
