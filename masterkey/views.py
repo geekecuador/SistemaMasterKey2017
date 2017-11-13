@@ -547,7 +547,7 @@ def reservacionesFinal(request):
             academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
                                       fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
             academico.save()
-            global estadocurso = True
+            estadocurso = True
             ctx = {
                 'nombres': estudiante.usuario.get_full_name(),
 
@@ -566,7 +566,7 @@ def reservacionesFinal(request):
             _curso.capacidad_maxima = _curso.capacidad_maxima - 1
             _curso.tipo_estudiante.add(estudiante.nivel)
             _curso.save()
-            global  estadocurso = True
+            estadocurso = True
             envioAlertaEmail(estudiante)
             limitacion = Limitaciones(estudiante=estudiante, fecha_reserva=datetime.datetime.today())
             limitacion.save()
