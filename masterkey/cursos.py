@@ -585,7 +585,7 @@ def obtener_cursos(estudiante, fecha):
     #         return cursos
 
     import datetime
-
+    fecha  = datetime.datetime.strptime(fecha, "%m/%d/%Y").strftime("%Y-%m-%d")
     if(fecha>datetime.datetime.now()):
         cursos1 = Curso.objects.filter(sede__ciudad=estudiante.ciudad).filter(fecha=fecha).filter(
             capacidad_maxima__gt=0). \
