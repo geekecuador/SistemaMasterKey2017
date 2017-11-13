@@ -153,6 +153,10 @@ class ProgramaAdmin(admin.ModelAdmin):
 class NoticiasAdmin(admin.ModelAdmin):
     pass
 
+@admin.register(models.TallerRank)
+class TallerRankAdmin(admin.ModelAdmin):
+    pass
+
 # Quitar en producción
 @admin.register(models.Estado)
 class EstadoAdmin(admin.ModelAdmin):
