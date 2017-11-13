@@ -1,6 +1,8 @@
 from itertools import chain
 
+from django.core.mail import send_mail
 from django.db.models import Count
+from django.template.loader import render_to_string
 
 from masterkey.models import Curso
 
@@ -646,3 +648,17 @@ def inactivo(estudiante):
             usuario = estudiante.usuario
             usuario.is_active = False
             usuario.save()
+
+
+def envioAlertaEmail(estudiante):
+    id = [15,32,51,61,71,81,91,101]
+    if(estudiante.nivel.id in id):
+        ctx = {
+            'nombres': estudiante.usuario.get_full_name(),
+
+
+        }
+        html_part = render_to_string('email/recordatorio.html', ctx)
+        send_mail('RESERVACIÓN ' + estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec',
+                  [estudiante.usuario.email], fail_silently=False,
+                  html_message=html_part)

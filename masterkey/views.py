@@ -17,7 +17,7 @@ from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views import View
 
-from cursos import obtener_cursos
+from cursos import obtener_cursos, envioAlertaEmail
 from models import Estudiante, Noticias, Taller, Test, Curso, Limitaciones, Ciudad, Estado, Sede, Nivel, Academic_Rank, TallerRank
 
 
@@ -170,6 +170,7 @@ def paso3(request):
                 _curso.save()
                 limitacion = Limitaciones(estudiante=estudiante, fecha_reserva=datetime.datetime.today())
                 limitacion.save()
+                envioAlertaEmail(estudiante)
 
                 academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
                                           fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
@@ -196,6 +197,7 @@ def paso3(request):
                 estadocurso = True
                 limitacion = Limitaciones(estudiante=estudiante, fecha_reserva=datetime.datetime.today())
                 limitacion.save()
+                envioAlertaEmail(estudiante)
                 academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
                                           fecha=_curso.fecha, hora=_curso.hora_inicio, curso=_curso, firma_alumno=False)
                 academico.save()
@@ -513,6 +515,7 @@ def reservaciones(request):
         fecha = datetime.datetime.strptime(fecha, "%m/%d/%Y").strftime("%Y-%m-%d")
         cursos = obtener_cursos(estudiante, fecha)
         print(cursos)
+
         return render(request, 'reservaciones/resultados.html',
                       {'cursos': cursos, 'fecha': fecha, 'estudiante': estudiante})
     elif request.method == 'GET':
@@ -534,6 +537,7 @@ def reservacionesFinal(request):
             _curso.capacidad_maxima = _curso.capacidad_maxima - 1
             _curso.max_tipo = _curso.max_tipo - 1
             _curso.save()
+            envioAlertaEmail(estudiante)
             limitacion = Limitaciones(estudiante=estudiante, fecha_reserva=datetime.datetime.today())
             limitacion.save()
 
@@ -560,6 +564,7 @@ def reservacionesFinal(request):
             _curso.tipo_estudiante.add(estudiante.nivel)
             _curso.save()
             estadocurso = True
+            envioAlertaEmail(estudiante)
             limitacion = Limitaciones(estudiante=estudiante, fecha_reserva=datetime.datetime.today())
             limitacion.save()
             academico = Academic_Rank(estudiante=estudiante, nivel=Nivel.objects.get(pk=999),
