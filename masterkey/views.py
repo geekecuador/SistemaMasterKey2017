@@ -179,7 +179,7 @@ def paso3(request):
                     'nombres': estudiante.usuario.get_full_name(),
 
                     'curso': _curso,
-
+                       'actividad': 'lección',
                 }
                 html_part = render_to_string('email/reservacion.html', ctx)
                 send_mail('RESERVACIÓN ' + estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec',
@@ -203,6 +203,7 @@ def paso3(request):
                     'nombres': estudiante.usuario.get_full_name(),
 
                     'curso': _curso,
+                    'actividad': 'lección',
 
                 }
                 html_part = render_to_string('email/reservacion.html', ctx)
@@ -315,6 +316,16 @@ def talleres(request):
                 _talleresRank.save()
 
                 confirmacion = True
+                ctx = {
+                    'nombres': estudiante.usuario.get_full_name(),
+
+                    'curso': taller,
+                    'actividad': 'taller',
+                }
+                html_part = render_to_string('email/reservacion.html', ctx)
+                send_mail('RESERVACIÓN ' + estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec',
+                          [estudiante.usuario.email], fail_silently=False,
+                          html_message=html_part)
                 return render(request, 'confirmacion-talleres.html',
                               {'username': username, 'estudiante': estudiante, 'taller': taller,
                                'confirmacion': confirmacion})
@@ -534,7 +545,7 @@ def reservacionesFinal(request):
                 'nombres': estudiante.usuario.get_full_name(),
 
                 'curso': _curso,
-
+                'actividad': 'lección',
             }
             html_part = render_to_string('email/reservacion.html', ctx)
             send_mail('RESERVACIÓN ' + estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec',
@@ -558,7 +569,7 @@ def reservacionesFinal(request):
                 'nombres': estudiante.usuario.get_full_name(),
 
                 'curso': _curso,
-
+                'actividad': 'lección',
             }
             html_part = render_to_string('email/reservacion.html', ctx)
             send_mail('RESERVACIÓN ' + estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec',
