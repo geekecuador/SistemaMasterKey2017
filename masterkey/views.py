@@ -183,7 +183,7 @@ def paso3(request):
                     'nombres': estudiante.usuario.get_full_name(),
 
                     'curso': _curso,
-                       'actividad': 'lección',
+                       'actividad': 'curso',
                 }
                 html_part = render_to_string('email/reservacion.html', ctx)
                 send_mail('RESERVACIÓN ' + estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec',
@@ -208,7 +208,7 @@ def paso3(request):
                     'nombres': estudiante.usuario.get_full_name(),
 
                     'curso': _curso,
-                    'actividad': 'lección',
+                    'actividad': 'curso',
 
                 }
                 html_part = render_to_string('email/reservacion.html', ctx)
@@ -552,7 +552,7 @@ def reservacionesFinal(request):
                 'nombres': estudiante.usuario.get_full_name(),
 
                 'curso': _curso,
-                'actividad': 'lección',
+                'actividad': 'curso',
             }
             html_part = render_to_string('email/reservacion.html', ctx)
             send_mail('RESERVACIÓN ' + estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec',
@@ -577,7 +577,7 @@ def reservacionesFinal(request):
                 'nombres': estudiante.usuario.get_full_name(),
 
                 'curso': _curso,
-                'actividad': 'lección',
+                'actividad': 'curso',
             }
             html_part = render_to_string('email/reservacion.html', ctx)
             send_mail('RESERVACIÓN ' + estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec',
