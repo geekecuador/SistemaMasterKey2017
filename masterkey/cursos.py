@@ -1,3 +1,5 @@
+# -*- coding: utf-
+# coding=utf-8    
 from itertools import chain
 
 from django.core.mail import send_mail
