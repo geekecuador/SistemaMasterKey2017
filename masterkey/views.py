@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # coding=utf-8
 
-
 from __future__ import print_function
 from __future__ import unicode_literals
 
@@ -21,7 +20,8 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from cursos import obtener_cursos, envioAlertaEmail
-from models import Estudiante, Noticias, Taller, Test, Curso, Limitaciones, Ciudad, Estado, Sede, Nivel, Academic_Rank, TallerRank
+from models import Estudiante, Noticias, Taller, Test, Curso, Limitaciones, Ciudad, Estado, Sede, Nivel, Academic_Rank, \
+    TallerRank
 
 
 class StaffRequiredMixin(object):
@@ -183,7 +183,7 @@ def paso3(request):
                     'nombres': estudiante.usuario.get_full_name(),
 
                     'curso': _curso,
-                       'actividad': 'lección',
+                    'actividad': 'lección',
                 }
                 html_part = render_to_string('email/reservacion.html', ctx)
                 send_mail('RESERVACIÓN ' + estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec',
@@ -193,7 +193,8 @@ def paso3(request):
             elif _curso.estudiantes.all().filter(
                     pk=estudiante.cedula).count() == 0 and _curso.tipo_estudiante.count() <= 3:
                 _curso.estudiantes.add(estudiante)
-                _curso.max_tipo = _curso.max_tipo - 1
+                if not estudiante.nivel in _curso.tipo_estudiante:
+                    _curso.max_tipo = _curso.max_tipo - 1
                 _curso.capacidad_maxima = _curso.capacidad_maxima - 1
                 _curso.tipo_estudiante.add(estudiante.nivel)
                 _curso.save()
@@ -254,7 +255,9 @@ def talleresRank(request):
     username = request.user
     estudiante = Estudiante.objects.get(usuario=username)
     talleresRank = TallerRank.objects.filter(estudiante=estudiante)
-    return render(request, 'tallerRank.html', {'username': username, 'estudiante': estudiante, 'talleresRank': talleresRank})
+    return render(request, 'tallerRank.html',
+                  {'username': username, 'estudiante': estudiante, 'talleresRank': talleresRank})
+
 
 @login_required(login_url='/')
 def test(request):
@@ -317,7 +320,7 @@ def talleres(request):
                 taller.estudiantes.add(estudiante)
                 taller.capacidad = taller.capacidad - 1
                 taller.save()
-                _talleresRank = TallerRank(estudiante=estudiante, taller=taller,nota="",asistencia=False)
+                _talleresRank = TallerRank(estudiante=estudiante, taller=taller, nota="", asistencia=False)
                 _talleresRank.save()
 
                 confirmacion = True
@@ -368,9 +371,6 @@ class ExportarHorarios(StaffRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         fecha = request.POST['fecha']
         sede = request.POST['sede']
-        print(sede)
-        # sede  = Sede.objects.get(pk=sede)
-        # print(sede)
         fecha = datetime.datetime.strptime(fecha, '%m/%d/%Y').date()
         return exportar_cursos_xls(fecha, sede)
 
@@ -532,7 +532,8 @@ def reservacionesFinal(request):
         estudiante = Estudiante.objects.get(usuario__username__exact=username)
         _curso = Curso.objects.get(pk=request.POST.getlist('id')[0])
 
-        if _curso.tipo_nivel == 'xx' and _curso.tipo_leccion == 0 and _curso.max_tipo == 3:
+        if _curso.tipo_nivel == 'xx' and _curso.tipo_leccion == 0 and _curso.max_tipo == 3 and _curso.estudiantes.all().filter(
+                pk=estudiante.cedula).count() == 0:
             _curso.tipo_nivel = estudiante.nivel.nivel
             _curso.tipo_leccion = estudiante.nivel.leccion
             _curso.estudiantes.add(estudiante)
@@ -558,12 +559,19 @@ def reservacionesFinal(request):
             send_mail('RESERVACIÓN ' + estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec',
                       [estudiante.usuario.email], fail_silently=False,
                       html_message=html_part)
-            return render(request, 'reservaciones/final.html', {'username': username, 'estudiante': estudiante, 'confirmacion': estadocurso,'infoCurso': _curso}) 
+            return render(request, 'reservaciones/final.html',
+                          {'username': username, 'estudiante': estudiante, 'confirmacion': estadocurso,
+                           'infoCurso': _curso})
 
         elif _curso.estudiantes.all().filter(
                 pk=estudiante.cedula).count() == 0 and _curso.tipo_estudiante.count() <= 3:
             _curso.estudiantes.add(estudiante)
-            _curso.max_tipo = _curso.max_tipo - 1
+
+
+
+            if not estudiante.nivel in _curso.tipo_estudiante:
+                _curso.max_tipo = _curso.max_tipo  -1
+
             _curso.capacidad_maxima = _curso.capacidad_maxima - 1
             _curso.tipo_estudiante.add(estudiante.nivel)
             _curso.save()
@@ -584,8 +592,11 @@ def reservacionesFinal(request):
             send_mail('RESERVACIÓN ' + estudiante.usuario.get_full_name(), ' ', 'sistema@masterkey.com.ec',
                       [estudiante.usuario.email], fail_silently=False,
                       html_message=html_part)
-            return render(request, 'reservaciones/final.html', {'username': username, 'estudiante': estudiante, 'confirmacion': estadocurso,'infoCurso': _curso})
-        return render(request, 'reservaciones/final.html', {'username': username, 'estudiante': estudiante, 'error':'Existe un error, vuelva a intentar'})
+            return render(request, 'reservaciones/final.html',
+                          {'username': username, 'estudiante': estudiante, 'confirmacion': estadocurso,
+                           'infoCurso': _curso})
+        return render(request, 'reservaciones/final.html',
+                      {'username': username, 'estudiante': estudiante, 'error': 'Existe un error, vuelva a intentar'})
 
 
 def search(request):
