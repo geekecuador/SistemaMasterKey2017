@@ -4,7 +4,7 @@ from itertools import chain
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
-from masterkey.models import Curso
+from masterkey.models import Curso, Academic_Rank
 
 
 def obtener_cursos(estudiante, fecha):
@@ -12,7 +12,9 @@ def obtener_cursos(estudiante, fecha):
     import datetime
     fecha = datetime.datetime.strptime(fecha, "%Y-%m-%d").strftime("%Y-%m-%d")
     fechaActual = str(datetime.date.today())
-    if (fecha > fechaActual):
+    academico = Academic_Rank.objects.filter(nivel_id=999).filter(estudiante=estudiante)
+    academico.count()
+    if (fecha > fechaActual) and len(academico) >= 1 :
 
         # CURSOS NO VACIOS
         cursos1 = Curso.objects.filter(sede__ciudad=estudiante.ciudad).filter(fecha=fecha).filter(
