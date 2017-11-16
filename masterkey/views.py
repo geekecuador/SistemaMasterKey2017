@@ -169,7 +169,8 @@ def paso3(request):
                 _curso.estudiantes.add(estudiante)
                 _curso.tipo_estudiante.add(estudiante.nivel)
                 _curso.capacidad_maxima = _curso.capacidad_maxima - 1
-                _curso.max_tipo = _curso.max_tipo - 1
+                if not estudiante.nivel in _curso.tipo_estudiante.all():
+                    _curso.max_tipo = _curso.max_tipo - 1
                 _curso.save()
                 limitacion = Limitaciones(estudiante=estudiante, fecha_reserva=datetime.datetime.today())
                 limitacion.save()
