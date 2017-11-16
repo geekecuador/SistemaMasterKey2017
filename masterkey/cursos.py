@@ -14,7 +14,7 @@ def obtener_cursos(estudiante, fecha):
     fechaActual = str(datetime.date.today())
     academico = Academic_Rank.objects.filter(nivel_id=999).filter(estudiante=estudiante)
     academico.count()
-    if (fecha > fechaActual) and len(academico) >= 1 :
+    if (fecha > fechaActual) and len(academico) ==0 :
 
         # CURSOS NO VACIOS
         cursos1 = Curso.objects.filter(sede__ciudad=estudiante.ciudad).filter(fecha=fecha).filter(
