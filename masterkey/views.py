@@ -661,8 +661,8 @@ def exportar_estudiantes_pasivos_xls(ciudad):
                                                          'contrato__fecha_creacion', 'contrato__duracion',
                                                          'fecha_nacimiento', 'telefono',
                                                          'Estudiante__estado__seguimiento__comentario').filter\
-        (academic_rank__curso__fecha__range=[datetime.datetime.now()-datetime.timedelta(days=90),
-                                             datetime.datetime.now()]).filter\
+        (academic_rank__curso__fecha__range=[datetime.datetime.now()-datetime.timedelta(days=365),
+                                             datetime.datetime.now() - datetime.timedelta(days=90)]).filter\
         (ciudad_id=ciudad).distinct('usuario__email')
 
     # .values_list('user', 'first_name', 'last_name', 'email')
