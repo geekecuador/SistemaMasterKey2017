@@ -1,0 +1,27 @@
+{% extends 'reportes/base.html' %}
+{% block content %}
+
+                        <form class="form-horizontal m-t-20" action="" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+    <label for="">Ciudades:</label>
+                                 <select class="form-control" name="ciudades">
+                                   {% for c in ciudad %}
+                                       <option value="{{ c.pk }}">{{c.nombre }}</option>
+                                   {% endfor %}
+                                   
+
+	                                                    </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group text-center m-t-20 m-b-0">
+                            <div class="col-xs-12">
+                                <button class="btn btn-custom btn-bordred btn-block waves-effect waves-light" type="submit">GENERAR</button>
+                            </div>
+                        </div>
+
+                    </form>
+{% endblock %}
