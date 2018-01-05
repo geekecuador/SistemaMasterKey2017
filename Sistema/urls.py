@@ -47,6 +47,8 @@ urlpatterns = [
     url(r'^ver-lecciones/', views.ver_lecciones, name='ver-lecciones'),
 
     url(r'^exportar/estudiantes/$', views.ExportarEstudiantes.as_view(), name='exportarEstudiantes'),
+    url(r'^exportar/estudiantes/pasivos$', views.ExportarEstudiantesPasivos.as_view(),
+        name='exportarEstudiantesPasivos'),
     url(r'^exportar/horarios/$', views.ExportarHorarios.as_view(), name='exportarHorarios'),
     url(r'^exportar/talleres/$', views.ExportarTalleres.as_view(), name='exportarTalleres'),
 

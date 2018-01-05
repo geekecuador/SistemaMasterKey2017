@@ -614,3 +614,63 @@ def search(request):
         data = 'fail'
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
+
+
+# cambios 2018
+
+class ExportarEstudiantesPasivos(View):
+    template_name = 'reportes/estudiantesPasivos.html'
+
+    def get(self, request, *args, **kwargs):
+        ciudad = Ciudad.objects.all()
+
+        return render(request, self.template_name, {'ciudad': ciudad})
+
+    def post(self, request, *args, **kwargs):
+        return exportar_estudiantes__activos_xls(request.POST['ciudades'])
+
+
+
+
+
+def exportar_estudiantes_pasivos_xls(ciudad):
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="archivo_estudiantes_pasivos.xls"'
+
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Estudiantes_Pasivos')
+
+    # Sheet header, first row
+    row_num = 0
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    columns = ['Usuario', 'Nombre', 'Apellido', 'Email', 'Nivel', 'Lección', 'Contrato', 'Cédula', 'Inicio', 'Termino',
+               'Fecha_Nacimiento', 'Teléfono', 'Observaciones']
+
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style)
+
+    # Sheet body, remaining rows
+    font_style = xlwt.XFStyle()
+
+    estudiantes_activos = Estudiante.objects.values_list('usuario__username', 'usuario__first_name',
+                                                         'usuario__last_name', 'usuario__email',
+                                                         'nivel__nivel', 'nivel__leccion', 'contrato', 'cedula',
+                                                         'contrato__fecha_creacion', 'contrato__duracion',
+                                                         'fecha_nacimiento', 'telefono',
+                                                         'Estudiante__estado__seguimiento__comentario').filter\
+        (academic_rank__curso__fecha__range=[datetime.datetime.now()-datetime.timedelta(days=90),
+                                             datetime.datetime.now()]).filter\
+        (ciudad_id=ciudad).distinct('usuario__email')
+
+    # .values_list('user', 'first_name', 'last_name', 'email')
+    # rows = User.objects.values()
+    for row in estudiantes_activos:
+        row_num += 1
+        for col_num in range(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+
+    wb.save(response)
+    return response
