@@ -660,9 +660,9 @@ def exportar_estudiantes_pasivos_xls(ciudad):
                                                          'nivel__nivel', 'nivel__leccion', 'contrato', 'cedula',
                                                          'contrato__fecha_creacion', 'contrato__duracion',
                                                          'fecha_nacimiento', 'telefono',
-                                                         'Estudiante__estado__seguimiento__comentario').filter\
-        (academic_rank__curso__fecha__range=[datetime.datetime.now()-datetime.timedelta(days=365),
-                                             datetime.datetime.now() - datetime.timedelta(days=90)]).filter\
+                                                         'Estudiante__estado__seguimiento__comentario').exclude\
+        (academic_rank__curso__fecha__range=[datetime.datetime.now()- datetime.timedelta(days=90),
+                                             datetime.datetime.now()]).filter\
         (ciudad_id=ciudad).distinct('usuario__email')
 
     # .values_list('user', 'first_name', 'last_name', 'email')
