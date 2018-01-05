@@ -627,7 +627,7 @@ class ExportarEstudiantesPasivos(View):
         return render(request, self.template_name, {'ciudad': ciudad})
 
     def post(self, request, *args, **kwargs):
-        return exportar_estudiantes__activos_xls(request.POST['ciudades'])
+        return exportar_estudiantes_pasivos_xls(request.POST['ciudades'])
 
 
 
