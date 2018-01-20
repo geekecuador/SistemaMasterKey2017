@@ -199,6 +199,8 @@ class Curso(models.Model):
                 lista = list(set(lista))
                 if len(lista) >= 3:
                     return
+                else:
+                    super(Curso, self).save()
         else:
             super(Curso, self).save()
 
