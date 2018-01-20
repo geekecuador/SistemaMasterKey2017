@@ -191,9 +191,13 @@ class Curso(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        if self.capacidad_maxima <=0:
-            return
-        
+        if self.id:
+            estudiantes = self.estudiantes.all()
+            for estudiante in estudiantes:
+                lista.append(estudiante.nivel_id)
+                lista = list(set(lista))
+                if len(lista) > 3:
+                    return
         else:
             super(Curso, self).save()
 
