@@ -197,7 +197,7 @@ class Curso(models.Model):
                 lista = []
                 lista.append(estudiante.nivel_id)
                 lista = list(set(lista))
-                if len(lista) > 3:
+                if len(lista) >= 3:
                     return
         else:
             super(Curso, self).save()
