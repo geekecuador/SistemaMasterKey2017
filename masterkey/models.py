@@ -189,13 +189,6 @@ class Curso(models.Model):
         verbose_name_plural = 'cursos'
 
 
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None, *args,**kwargs):
-        if self.capacidad_maxima <=0:
-            return
-        
-        else:
-            super(Curso, self).save( *args,**kwargs)
 
 
     def __str__(self):
