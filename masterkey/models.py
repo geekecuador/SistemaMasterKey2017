@@ -197,8 +197,6 @@ class Curso(models.Model):
             lista = []
             for estudiante in estudiantes:
                 lista.append(estudiante.nivel.id)
-                print("FOR :D")
-                print(estudiante.nivel.id)
                 lista = list(set(lista))
             print("La lista es: "+str(lista))
             print("Longitud: "+str(len(lista)))
