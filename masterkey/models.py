@@ -196,7 +196,8 @@ class Curso(models.Model):
             estudiantes = self.estudiantes.all()
             lista = []
             for estudiante in estudiantes:
-                lista.append(estudiante.nivel_id)
+                lista.append(estudiante.nivel.id)
+                print(estudiante.nivel.id)
                 lista = list(set(lista))
                 if len(lista) >= 3:
                     return
