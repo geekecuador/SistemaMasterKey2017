@@ -23,9 +23,8 @@ from cursos import obtener_cursos, envioAlertaEmail
 from models import Estudiante, Noticias, Taller, Test, Curso, Limitaciones, Ciudad, Estado, Sede, Nivel, Academic_Rank, \
     TallerRank
 
-
-
 from django.db import transaction
+
 
 class StaffRequiredMixin(object):
     @method_decorator(staff_member_required)
@@ -575,10 +574,8 @@ def reservacionesFinal(request):
                 pk=estudiante.cedula).count() == 0 and _curso.tipo_estudiante.count() <= 3:
             _curso.estudiantes.add(estudiante)
 
-
-
             if not estudiante.nivel in _curso.tipo_estudiante.all():
-                _curso.max_tipo = _curso.max_tipo  -1
+                _curso.max_tipo = _curso.max_tipo - 1
 
             _curso.capacidad_maxima = _curso.capacidad_maxima - 1
             _curso.tipo_estudiante.add(estudiante.nivel)
@@ -637,9 +634,6 @@ class ExportarEstudiantesPasivos(View):
         return exportar_estudiantes_pasivos_xls(request.POST['ciudades'])
 
 
-
-
-
 def exportar_estudiantes_pasivos_xls(ciudad):
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename="archivo_estudiantes_pasivos.xls"'
@@ -667,9 +661,9 @@ def exportar_estudiantes_pasivos_xls(ciudad):
                                                          'nivel__nivel', 'nivel__leccion', 'contrato', 'cedula',
                                                          'contrato__fecha_creacion', 'contrato__duracion',
                                                          'fecha_nacimiento', 'telefono',
-                                                         'Estudiante__estado__seguimiento__comentario').exclude\
-        (academic_rank__curso__fecha__range=[datetime.datetime.now()- datetime.timedelta(days=90),
-                                             datetime.datetime.now()]).filter\
+                                                         'Estudiante__estado__seguimiento__comentario').exclude \
+        (academic_rank__curso__fecha__range=[datetime.datetime.now() - datetime.timedelta(days=90),
+                                             datetime.datetime.now()]).filter \
         (ciudad_id=ciudad).distinct('usuario__email')
 
     # .values_list('user', 'first_name', 'last_name', 'email')
