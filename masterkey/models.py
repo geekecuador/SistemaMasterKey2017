@@ -7,6 +7,7 @@ from django.core.mail import send_mail
 from django.db import models
 # Create your models here.
 from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.template.loader import render_to_string
 
 
@@ -183,27 +184,11 @@ class Curso(models.Model):
     tipo_leccion = models.PositiveSmallIntegerField(default=0)
     max_tipo = models.SmallIntegerField(default=3)
     tipo_estudiante = models.ManyToManyField(Nivel, related_name='tipo_estudiante', blank=True)
-
     class Meta:
         verbose_name = 'curso'
         verbose_name_plural = 'cursos'
 
 
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
-        if self.id is not None:
-            print("SAVE")
-            estudiantes = self.estudiantes.all()
-            lista = []
-            for estudiante in estudiantes:
-                lista.append(estudiante.nivel.id)
-                lista = list(set(lista))
-            print("La lista es: "+str(lista))
-            print("Longitud: "+str(len(lista)))
-            if len(lista) < 3:
-                super(Curso, self).save()
-        else:
-            super(Curso, self).save()
 
     def __str__(self):
         return "Sede:"+self.sede.nombre_sede+ "Fecha: " + str(self.fecha) + " Hora Inicio: " + str(self.hora_inicio) + \
@@ -354,3 +339,6 @@ def activateUser(sender, instance, **kwargs):
 
 
 post_save.connect(activateUser, sender=Test)
+
+
+

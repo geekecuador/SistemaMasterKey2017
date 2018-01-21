@@ -24,6 +24,9 @@ from models import Estudiante, Noticias, Taller, Test, Curso, Limitaciones, Ciud
     TallerRank
 
 
+
+from django.db import transaction
+
 class StaffRequiredMixin(object):
     @method_decorator(staff_member_required)
     def dispatch(self, request, *args, **kwargs):
@@ -131,6 +134,7 @@ def paso1(request):
 
 
 @login_required(login_url='/')
+@transaction.atomic()
 def paso2(request):
     username = request.user
     estudiante = Estudiante.objects.get(usuario=username)
@@ -152,6 +156,7 @@ def paso2(request):
 
 
 @login_required(login_url='/')
+@transaction.atomic()
 def paso3(request):
     username = None
     global estadocurso
@@ -509,6 +514,7 @@ def my_custom_page_not_found_view(request):
 
 
 @staff_member_required()
+@transaction.atomic()
 def reservaciones(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -527,6 +533,7 @@ def reservaciones(request):
 
 
 @staff_member_required()
+@transaction.atomic()
 def reservacionesFinal(request):
     if request.method == 'POST':
         username = request.POST['username']
