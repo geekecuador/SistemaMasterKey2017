@@ -192,6 +192,7 @@ class Curso(models.Model):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self.id is not None:
+            print("SAVE")
             estudiantes = self.estudiantes.all()
             lista = []
             for estudiante in estudiantes:
