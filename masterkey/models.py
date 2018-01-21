@@ -202,9 +202,7 @@ class Curso(models.Model):
                 lista = list(set(lista))
             print("La lista es: "+str(lista))
             print("Longitud: "+str(len(lista)))
-            if len(lista) >= 3:
-                return
-            else:
+            if len(lista) < 3:
                 super(Curso, self).save()
         else:
             super(Curso, self).save()
