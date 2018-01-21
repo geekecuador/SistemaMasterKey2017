@@ -200,8 +200,8 @@ class Curso(models.Model):
                 print("FOR :D")
                 print(estudiante.nivel.id)
                 lista = list(set(lista))
-                print("La lista es: "+lista)
-                print("Longitud: "+len(lista))
+                print("La lista es: "+str(lista))
+                print("Longitud: "+str(len(lista)))
                 if len(lista) >= 3:
                     return
                 else:
