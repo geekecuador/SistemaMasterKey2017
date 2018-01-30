@@ -21,7 +21,7 @@ from django.views import View
 
 from cursos import obtener_cursos, envioAlertaEmail
 from models import Estudiante, Noticias, Taller, Test, Curso, Limitaciones, Ciudad, Estado, Sede, Nivel, Academic_Rank, \
-    TallerRank
+    TallerRank, Seguimiento
 
 from django.db import transaction
 
@@ -411,23 +411,39 @@ def exportar_estudiantes_xls(estado, ciudad):
     font_style.font.bold = True
 
     columns = ['Usuario', 'Nombre', 'Apellido', 'Email', 'Nivel', 'Lección', 'Contrato', 'Cédula', 'Inicio', 'Termino',
-               'Fecha_Nacimiento', 'Teléfono', 'Observaciones']
+               'Fecha_Nacimiento', 'Teléfono', 'Observaciones','Estado']
 
     for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num], font_style)
 
     font_style = xlwt.XFStyle()
-    estudiantes_activos = Estudiante.objects.values_list('usuario__username', 'usuario__first_name',
-                                                         'usuario__last_name', 'usuario__email',
-                                                         'nivel__nivel', 'nivel__leccion', 'contrato', 'cedula',
-                                                         'contrato__fecha_creacion', 'contrato__duracion',
-                                                         'fecha_nacimiento', 'telefono',
-                                                         'Estudiante__estado__seguimiento__comentario').filter(
-        Estudiante__estado_id=estado).filter(ciudad_id=ciudad).distinct('usuario__email')
-    for row in estudiantes_activos:
+    # estudiantes_activos = Estudiante.objects.values_list('usuario__username', 'usuario__first_name',
+    #                                                      'usuario__last_name', 'usuario__email',
+    #                                                      'nivel__nivel', 'nivel__leccion', 'contrato', 'cedula',
+    #                                                      'contrato__fecha_creacion', 'contrato__duracion',
+    #                                                      'fecha_nacimiento', 'telefono',
+    #                                                      'Estudiante__estado__seguimiento__comentario').filter(
+    #     Estudiante__estado_id=estado).filter(ciudad_id=ciudad).distinct('usuario__email')
+    print("Realizando la busqueda")
+    estudiante_reporte = Seguimiento.objects.filter(estado_id=estado).filter(estudiante__ciudad_id=ciudad)
+    for n in estudiante_reporte:
+        print(n)
+    print("Busqueda finalizada")
+    for row in estudiante_reporte:
         row_num += 1
-        for col_num in range(len(row)):
-            ws.write(row_num, col_num, row[col_num], font_style)
+        ws.write(row_num, 0, str(estudiante_reporte[row].estudiante.usuario), font_style)
+        ws.write(row_num, 1, str(estudiante_reporte[row].estudiante.usuario.first_name), font_style)
+        ws.write(row_num, 2, str(estudiante_reporte[row].estudiante.usuario.last_name), font_style)
+        ws.write(row_num, 3, str(estudiante_reporte[row].estudiante.usuario.email), font_style)
+        ws.write(row_num, 4, str(estudiante_reporte[row].estudiante.nivel.nivel), font_style)
+        ws.write(row_num, 5, str(estudiante_reporte[row].estudiante.nivel.leccion), font_style)
+        ws.write(row_num, 6, str(estudiante_reporte[row].estudiante.cedula), font_style)
+        ws.write(row_num, 7, str(estudiante_reporte[row].estudiante.fecha_de_inicio), font_style)
+        ws.write(row_num, 8, str(estudiante_reporte[row].estudiante.fecha_de_expiracion), font_style)
+        ws.write(row_num, 9, str(estudiante_reporte[row].estudiante.fecha_nacimiento), font_style)
+        ws.write(row_num, 10,str(estudiante_reporte[row].estudiante.telefono), font_style)
+        ws.write(row_num, 11,str(estudiante_reporte[row].comentario) , font_style)
+        ws.write(row_num, 12, str(estudiante_reporte[row].estado), font_style)
 
     wb.save(response)
     return response
