@@ -426,25 +426,23 @@ def exportar_estudiantes_xls(estado, ciudad):
     #     Estudiante__estado_id=estado).filter(ciudad_id=ciudad).distinct('usuario__email')
     print("Realizando la busqueda")
     estudiante_reporte = Seguimiento.objects.filter(estado_id=estado).filter(estudiante__ciudad_id=ciudad)
-    for n in estudiante_reporte:
-        print(n)
+
     print("Busqueda finalizada")
     for row in estudiante_reporte:
         row_num += 1
-        ws.write(row_num, 0, str(estudiante_reporte[row].estudiante.usuario), font_style)
-        ws.write(row_num, 1, str(estudiante_reporte[row].estudiante.usuario.first_name), font_style)
-        ws.write(row_num, 2, str(estudiante_reporte[row].estudiante.usuario.last_name), font_style)
-        ws.write(row_num, 3, str(estudiante_reporte[row].estudiante.usuario.email), font_style)
-        ws.write(row_num, 4, str(estudiante_reporte[row].estudiante.nivel.nivel), font_style)
-        ws.write(row_num, 5, str(estudiante_reporte[row].estudiante.nivel.leccion), font_style)
-        ws.write(row_num, 6, str(estudiante_reporte[row].estudiante.cedula), font_style)
-        ws.write(row_num, 7, str(estudiante_reporte[row].estudiante.fecha_de_inicio), font_style)
-        ws.write(row_num, 8, str(estudiante_reporte[row].estudiante.fecha_de_expiracion), font_style)
-        ws.write(row_num, 9, str(estudiante_reporte[row].estudiante.fecha_nacimiento), font_style)
-        ws.write(row_num, 10,str(estudiante_reporte[row].estudiante.telefono), font_style)
-        ws.write(row_num, 11,str(estudiante_reporte[row].comentario) , font_style)
-        ws.write(row_num, 12, str(estudiante_reporte[row].estado), font_style)
-
+        ws.write(row_num, 0, str(row.estudiante.usuario), font_style)
+        ws.write(row_num, 1, str(row.estudiante.usuario.first_name), font_style)
+        ws.write(row_num, 2, str(row.estudiante.usuario.last_name), font_style)
+        ws.write(row_num, 3, str(row.estudiante.usuario.email), font_style)
+        ws.write(row_num, 4, str(row.estudiante.nivel.nivel), font_style)
+        ws.write(row_num, 5, str(row.estudiante.nivel.leccion), font_style)
+        ws.write(row_num, 6, str(row.estudiante.cedula), font_style)
+        ws.write(row_num, 7, str(row.estudiante.fecha_de_inicio), font_style)
+        ws.write(row_num, 8, str(row.estudiante.fecha_de_expiracion), font_style)
+        ws.write(row_num, 9, str(row.estudiante.fecha_nacimiento), font_style)
+        ws.write(row_num, 10,str(row.estudiante.telefono), font_style)
+        ws.write(row_num, 11,str(row.comentario) , font_style)
+        ws.write(row_num, 12, str(row.estado), font_style)
     wb.save(response)
     return response
 
